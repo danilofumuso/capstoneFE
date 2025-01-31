@@ -1,0 +1,26 @@
+<div class="container">
+  <h1 class="display-5 mt-3 mb-5">Login</h1>
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <form>
+        <input
+          type="text"
+          class="form-control mb-3 border-black"
+          placeholder="Username"
+          name="username"
+          [(ngModel)]="formData.username"
+        />
+        <input
+          type="password"
+          class="form-control mb-3 border-black"
+          placeholder="Password"
+          name="password"
+          [(ngModel)]="formData.password"
+        />
+        <button (click)="login()" class="btn rounded-5 btn-outline-success">
+          Accedi
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
