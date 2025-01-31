@@ -1,7 +1,4 @@
-import { iMovie } from './i-movie';
-
-export interface iFavorite {
+export interface iFavourite {
   id?: number;
   userId: number;
-  movie: iMovie;
 }
