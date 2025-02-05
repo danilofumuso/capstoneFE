@@ -1,71 +1,156 @@
-<h2>Register as Student</h2>
+<div class="container">
+  <h5 class="mb-5 mt-3 text-center">
+    Please enter your informations and get ready to discover your professional
+    path
+  </h5>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row justify-content-center">
+      <div class="col-10 col-sm-8 col-lg-4">
+        <div class="mb-3">
+          <input
+            id="name"
+            formControlName="name"
+            type="text"
+            placeholder="Your Name"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+            class="text-rosso"
+          >
+            Please enter your name!
+          </div>
+        </div>
+        <div class="mb-3">
+          <input
+            id="surname"
+            formControlName="surname"
+            type="text"
+            placeholder="Your Surname"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="form.get('surname')?.invalid && form.get('surname')?.touched"
+            class="text-rosso"
+          >
+            Please enter your surname!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="dateOfBirth" class="form-label">Your Date of Birth</label>
+          <input
+            id="dateOfBirth"
+            formControlName="dateOfBirth"
+            type="date"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="
+              form.get('dateOfBirth')?.invalid &&
+              form.get('dateOfBirth')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter your date of birth!
+          </div>
+        </div>
+        <div class="mb-3">
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            placeholder="Your E-mail"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            class="text-rosso"
+          >
+            Please enter a valid mail!
+          </div>
+        </div>
+      </div>
+      <div class="col-10 col-sm-8 col-lg-4">
+        <div class="mb-3">
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            placeholder="Enter a Username"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="
+              form.get('username')?.invalid && form.get('username')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter a username!
+          </div>
+        </div>
+        <div class="mb-3">
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            placeholder="Enter a Password"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+          <div
+            *ngIf="
+              form.get('password')?.invalid && form.get('password')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter a password!
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="profilePicture" class="form-label"
+            >Choose Your Profile Picture</label
+          >
+          <input
+            id="profilePicture"
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control rounded-1 border-blu border-2 bg-background"
+          />
+        </div>
+        <div class="mb-3">
+          <select
+            class="form-select rounded-1 border-blu border-2 bg-background"
+            (change)="onSectorSelected($event)"
+          >
+            <option value="">Select Your Interests</option>
+            <option *ngFor="let sector of sectorsList" [value]="sector.id">
+              {{ sector.name }}
+            </option>
+          </select>
 
-<ngb-alert
-  *ngIf="alertMessage"
-  [type]="alertType"
-  (close)="clearAlert()"
-  [dismissible]="true"
->
-  {{ alertMessage }}
-</ngb-alert>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Name</label>
-    <input formControlName="name" type="text" />
-  </div>
-
-  <div>
-    <label>Surname</label>
-    <input formControlName="surname" type="text" />
-  </div>
-
-  <div>
-    <label>Date of Birth</label>
-    <input formControlName="dateOfBirth" type="date" />
-  </div>
-
-  <div>
-    <label>Username</label>
-    <input formControlName="username" type="text" />
-  </div>
-
-  <div>
-    <label>Email</label>
-    <input formControlName="email" type="email" />
-  </div>
-
-  <div>
-    <label>Password</label>
-    <input formControlName="password" type="password" />
-  </div>
-
-  <div class="mb-3">
-    <select class="form-select" (change)="onSectorSelected($event)">
-      <option value="">Select your interests</option>
-      <option *ngFor="let sector of sectorsList" [value]="sector.name">
-        {{ sector.name }}
-      </option>
-    </select>
-
-    <div class="mb-2">
-      <ng-container *ngFor="let sector of selectedSectors">
-        <span class="badge text-dark bg-verde me-1">
-          {{ sector }}
-          <button
-            type="button"
-            class="btn-close btn-close-dark btn-sm ms-1"
-            (click)="removeSector(sector)"
-          ></button>
-        </span>
-      </ng-container>
+          <div class="mb-2">
+            <ng-container *ngFor="let sectorId of selectedSectors">
+              <span class="badge text-dark bg-verde mt-2 me-2">
+                {{ getSectorNameById(sectorId) }}
+                <button
+                  type="button"
+                  class="btn-close btn-close-dark btn-sm ms-1"
+                  (click)="removeSector(sectorId)"
+                ></button>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <button class="btn btn-verde rounded-1">Register</button>
+      </div>
     </div>
-  </div>
+  </form>
 
-  <div>
-    <label>Profile Picture</label>
-    <input type="file" (change)="onFileSelected($event)" />
-  </div>
-
-  <button class="btn btn-verde rounded-1">Register</button>
-</form>
+  <ngb-alert
+    *ngIf="alertMessage"
+    [type]="alertType"
+    (close)="clearAlert()"
+    [dismissible]="true"
+  >
+    {{ alertMessage }}
+  </ngb-alert>
+</div>

@@ -8,8 +8,8 @@ export interface iRegisterDTO {
   email?: string;
   password?: string;
 
-  sectorsOfInterest?: string[];
+  sectorsOfInterestId?: number[];
 
   educationalPaths?: iEducationalPathDTO[];
-  professionName?: string;
+  professionId?: number;
 }

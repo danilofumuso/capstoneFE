@@ -15,7 +15,7 @@ export class RegisterStudentComponent implements OnInit {
   form!: FormGroup;
   profilePicture?: File;
   sectorsList: iSector[] = [];
-  selectedSectors: string[] = [];
+  selectedSectors: number[] = [];
 
   alertMessage?: string;
   alertType: 'success' | 'danger' = 'success';
@@ -37,7 +37,7 @@ export class RegisterStudentComponent implements OnInit {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      sectorsOfInterest: [[], Validators.required],
+      sectorsOfInterestId: [[], Validators.required],
     });
 
     this.http.get<iSector[]>(this.sectorsUrl).subscribe({
@@ -58,24 +58,29 @@ export class RegisterStudentComponent implements OnInit {
     const file: File = input.files[0];
     this.profilePicture = file;
   }
-
   onSectorSelected(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;
-    if (selectedValue && !this.selectedSectors.includes(selectedValue)) {
-      this.selectedSectors.push(selectedValue);
+    const selectedId = Number(selectedValue);
+    if (selectedId && !this.selectedSectors.includes(selectedId)) {
+      this.selectedSectors.push(selectedId);
       this.form.patchValue({
-        sectorsOfInterest: this.selectedSectors,
+        sectorsOfInterestId: this.selectedSectors,
       });
     }
     selectElement.value = '';
   }
 
-  removeSector(sector: string): void {
-    this.selectedSectors = this.selectedSectors.filter((s) => s !== sector);
+  removeSector(sectorId: number): void {
+    this.selectedSectors = this.selectedSectors.filter((s) => s !== sectorId);
     this.form.patchValue({
-      sectorsOfInterest: this.selectedSectors,
+      sectorsOfInterestId: this.selectedSectors,
     });
+  }
+
+  getSectorNameById(sectorId: number): string | undefined {
+    const found = this.sectorsList.find((sector) => sector.id === sectorId);
+    return found ? found.name : sectorId.toString();
   }
 
   onSubmit(): void {
@@ -90,7 +95,7 @@ export class RegisterStudentComponent implements OnInit {
       username: this.form.value.username,
       email: this.form.value.email,
       password: this.form.value.password,
-      sectorsOfInterest: this.form.value.sectorsOfInterest,
+      sectorsOfInterestId: this.form.value.sectorsOfInterestId,
     };
 
     const formData = new FormData();

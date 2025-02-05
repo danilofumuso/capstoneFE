@@ -46,7 +46,7 @@ export class RegisterProfessionalComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      professionName: ['', Validators.required],
+      professionId: ['', Validators.required],
       educationalPaths: this.fb.array([]),
     });
 
@@ -155,7 +155,7 @@ export class RegisterProfessionalComponent {
     const sectorId = selectElement.value;
     if (!sectorId) {
       this.professionsList = [];
-      this.form.patchValue({ professionName: '' });
+      this.form.patchValue({ professionId: '' });
       return;
     }
     this.http
@@ -165,7 +165,7 @@ export class RegisterProfessionalComponent {
       .subscribe({
         next: (data) => {
           this.professionsList = data;
-          this.form.patchValue({ professionName: '' });
+          this.form.patchValue({ professionId: '' });
         },
         error: () => {
           console.error(`Error loading professions for sector ${sectorId}:`);
@@ -192,7 +192,7 @@ export class RegisterProfessionalComponent {
       username: this.form.value.username,
       email: this.form.value.email,
       password: this.form.value.password,
-      professionName: this.form.value.professionName,
+      professionId: this.form.value.professionId,
       educationalPaths: this.form.value.educationalPaths,
     };
 

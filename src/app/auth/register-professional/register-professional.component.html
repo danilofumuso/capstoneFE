@@ -3,74 +3,122 @@
     Please insert your informations and get ready to share your story
   </h5>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="row justify-content-around">
-      <div class="col-4">
+    <div class="row justify-content-center">
+      <div class="col-10 col-md-4">
         <div class="mb-3">
-          <label for="name" class="form-label">Name</label>
           <input
             id="name"
             formControlName="name"
             type="text"
-            class="form-control"
+            placeholder="Your Name"
+            class="form-control rounded-1 border-secondary bg-background"
           />
+          <div
+            *ngIf="form.get('name')?.invalid && form.get('name')?.touched"
+            class="text-rosso"
+          >
+            Please enter your name!
+          </div>
         </div>
         <div class="mb-3">
-          <label for="surname" class="form-label">Surname</label>
           <input
             id="surname"
             formControlName="surname"
             type="text"
-            class="form-control"
+            placeholder="Your Surname"
+            class="form-control rounded-1 border-secondary bg-background"
           />
+          <div
+            *ngIf="form.get('surname')?.invalid && form.get('surname')?.touched"
+            class="text-rosso"
+          >
+            Please enter your surname!
+          </div>
         </div>
         <div class="mb-3">
-          <label for="dateOfBirth" class="form-label">Date of Birth</label>
+          <label for="dateOfBirth" class="form-label">Your Date of Birth</label>
           <input
             id="dateOfBirth"
             formControlName="dateOfBirth"
             type="date"
-            class="form-control"
+            class="form-control rounded-1 border-secondary bg-background"
           />
+          <div
+            *ngIf="
+              form.get('dateOfBirth')?.invalid &&
+              form.get('dateOfBirth')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter your date of birth!
+          </div>
         </div>
         <div class="mb-3">
-          <label for="username" class="form-label">Username</label>
-          <input
-            id="username"
-            formControlName="username"
-            type="text"
-            class="form-control"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
           <input
             id="email"
             formControlName="email"
             type="email"
-            class="form-control"
+            placeholder="Your E-mail"
+            class="form-control rounded-1 border-secondary bg-background"
           />
+          <div
+            *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
+            class="text-rosso"
+          >
+            Please enter a valid mail!
+          </div>
         </div>
         <div class="mb-3">
-          <label for="password" class="form-label">Password</label>
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            placeholder="Enter a Username"
+            class="form-control rounded-1 border-secondary bg-background"
+          />
+          <div
+            *ngIf="
+              form.get('username')?.invalid && form.get('username')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter a username!
+          </div>
+        </div>
+
+        <div class="mb-3">
           <input
             id="password"
             formControlName="password"
             type="password"
-            class="form-control"
+            placeholder="Enter a Password"
+            class="form-control rounded-1 border-secondary bg-background"
           />
+          <div
+            *ngIf="
+              form.get('password')?.invalid && form.get('password')?.touched
+            "
+            class="text-rosso"
+          >
+            Please enter a password!
+          </div>
         </div>
         <div class="mb-3">
-          <label for="profilePicture" class="form-label">Profile Picture</label>
+          <label for="profilePicture" class="form-label"
+            >Choose Your Profile Picture</label
+          >
           <input
             id="profilePicture"
             type="file"
             (change)="onFileSelected($event)"
-            class="form-control"
+            class="form-control rounded-1 border-secondary bg-background"
           />
         </div>
       </div>
-      <div class="col-6">
+
+      <div class="col-10 col-md-6">
         <div formArrayName="educationalPaths">
+          <h5>Your Educational Path</h5>
           <div
             *ngFor="
               let educationalpath of educationalPaths.controls;
@@ -79,16 +127,11 @@
             [formGroupName]="i"
             class=""
           >
-            <h5>Educational Path {{ i + 1 }}</h5>
-
-            <div class="mb-2">
-              <label for="university-{{ i }}" class="form-label"
-                >University</label
-              >
+            <div class="mb-3">
               <select
                 id="university-{{ i }}"
                 formControlName="universityId"
-                class="form-select"
+                class="form-select rounded-1 border-secondary bg-background"
                 (change)="onUniversityChange(i)"
               >
                 <option value="">Select University</option>
@@ -98,32 +141,28 @@
               </select>
             </div>
 
-            <div class="mb-2">
-              <label for="faculty-{{ i }}" class="form-label">Faculty</label>
+            <div class="mb-3">
               <select
                 id="faculty-{{ i }}"
                 formControlName="facultyId"
-                class="form-select"
+                class="form-select rounded-1 border-secondary bg-background"
                 (change)="onFacultyChange(i)"
               >
                 <option value="">Select Faculty</option>
                 <option
-                  *ngFor="let fac of facultiesOptions[i]"
-                  [value]="fac.id"
+                  *ngFor="let faculty of facultiesOptions[i]"
+                  [value]="faculty.id"
                 >
-                  {{ fac.name }}
+                  {{ faculty.name }}
                 </option>
               </select>
             </div>
 
-            <div class="mb-2">
-              <label for="degreeCourse-{{ i }}" class="form-label"
-                >Degree Course</label
-              >
+            <div class="mb-3">
               <select
                 id="degreeCourse-{{ i }}"
                 formControlName="degreeCourseId"
-                class="form-select"
+                class="form-select rounded-1 border-secondary bg-background"
               >
                 <option value="">Select Degree Course</option>
                 <option
@@ -136,32 +175,24 @@
             </div>
 
             <button
-              type="button"
-              class="btn btn-rosso btn-sm mb-2"
+              class="mb-3 border-rosso"
               (click)="removeEducationalPath(i)"
             >
-              Remove Educational Path
+              <span class="text-rosso"> Remove Educational Path </span>
             </button>
           </div>
         </div>
 
-        <button
-          type="button"
-          class="btn btn-blu btn-sm mb2-2"
-          (click)="addEducationalPath()"
-        >
-          Add Another Educational Path
+        <button class="mb-3 border-blu" (click)="addEducationalPath()">
+          <span class="text-blu"> Add Another Educational Path </span>
         </button>
 
         <div class="mb-3">
-          <label for="sectorId" class="form-label">Sector</label>
           <select
-            id="sectorId"
-            formControlName="sectorId"
-            class="form-select"
+            class="form-select rounded-1 border-secondary bg-background"
             (change)="onSectorChange($event)"
           >
-            <option value="">Select your sector</option>
+            <option value="">Select Sector</option>
             <option *ngFor="let sector of sectorsList" [value]="sector.id">
               {{ sector.name }}
             </option>
@@ -169,22 +200,23 @@
         </div>
 
         <div class="mb-3">
-          <label for="professionName" class="form-label">Profession</label>
           <select
-            id="professionName"
-            formControlName="professionName"
-            class="form-select"
+            id="professionId"
+            formControlName="professionId"
+            class="form-select rounded-1 border-secondary bg-background"
           >
-            <option value="">Select your profession</option>
+            <option value="">Select Your Profession</option>
             <option
               *ngFor="let profession of professionsList"
-              [value]="profession.name"
+              [value]="profession.id"
             >
               {{ profession.name }}
             </option>
           </select>
         </div>
-        <button class="btn btn-verde btn-sm rounded-1">Register</button>
+        <button class="border-blu">
+          <span class="text-blu"> Register </span>
+        </button>
       </div>
     </div>
   </form>
