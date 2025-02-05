@@ -1,9 +1,13 @@
+import { iEducationalPath } from './i-educational-path';
 import { iProfession } from './i-profession';
-import { iUniversity } from './i-university';
 import { iUser } from './i-user';
 
 export interface iProfessional {
-  user: iUser;
-  universities: iUniversity[];
-  profession: iProfession;
+  id?: number;
+  user?: iUser;
+  educationalPaths?: iEducationalPath[];
+  profession?: iProfession;
+  writtenStory?: string;
+  videoStory?: string;
+  curriculumVitae?: string;
 }

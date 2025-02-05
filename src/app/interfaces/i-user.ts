@@ -4,13 +4,13 @@ import { iStudent } from './i-student';
 
 export interface iUser {
   id: number;
-  name: String;
-  surname: String;
-  dateOfBirth: String;
-  username: String;
-  email: String;
-  password: String;
-  profilePicture?: String;
+  name: string;
+  surname: string;
+  dateOfBirth: string;
+  username: string;
+  email: string;
+  password: string;
+  profilePicture?: string;
   roles: Role[];
   student?: iStudent;
   professional?: iProfessional;

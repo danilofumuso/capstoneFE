@@ -4,9 +4,12 @@ import { environment } from '../../environments/environment.development';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { iUser } from '../interfaces/i-user';
 import { iAuthResponse } from '../interfaces/i-auth-response';
 import { iLoginRequest } from '../interfaces/i-login-request';
+import { iStudent } from '../interfaces/i-student';
+import { iProfessional } from '../interfaces/i-professional';
+import { iStudentDTO } from '../interfaces/i-student-dto';
+import { iRegisterDTO } from '../interfaces/i-register-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -15,8 +18,9 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
 
   registerUrl: string = environment.registerUrl;
+  registerStudentUrl: string = environment.registerStudentUrl;
+  registerProfessionalUrl: string = environment.registerProfessionalUrl;
   loginUrl: string = environment.loginUrl;
-  usersUrl: string = environment.usersUrl;
 
   authSubject$ = new BehaviorSubject<iAuthResponse | null>(null);
 
@@ -34,11 +38,19 @@ export class AuthService {
     this.restoreUser();
   }
 
-  register(newUser: Partial<iUser>) {
-    return this.http.post<iAuthResponse>(this.registerUrl, newUser);
+  register(formData: FormData): Observable<iRegisterDTO> {
+    return this.http.post<iRegisterDTO>(this.registerUrl, formData);
   }
 
-  login(authData: iLoginRequest) {
+  registerStudent(formData: FormData): Observable<iRegisterDTO> {
+    return this.http.post<iRegisterDTO>(this.registerStudentUrl, formData);
+  }
+
+  registerProfessional(formData: FormData): Observable<iRegisterDTO> {
+    return this.http.post<iRegisterDTO>(this.registerProfessionalUrl, formData);
+  }
+
+  login(authData: iLoginRequest): Observable<iAuthResponse> {
     return this.http.post<iAuthResponse>(this.loginUrl, authData).pipe(
       tap((accessData) => {
         this.authSubject$.next(accessData);
@@ -78,9 +90,5 @@ export class AuthService {
     }
 
     this.authSubject$.next(accessData);
-  }
-
-  getAllUsers(): Observable<iUser[]> {
-    return this.http.get<iUser[]>(this.usersUrl);
   }
 }

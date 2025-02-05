@@ -1,0 +1,71 @@
+<h2>Register as Student</h2>
+
+<ngb-alert
+  *ngIf="alertMessage"
+  [type]="alertType"
+  (close)="clearAlert()"
+  [dismissible]="true"
+>
+  {{ alertMessage }}
+</ngb-alert>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Name</label>
+    <input formControlName="name" type="text" />
+  </div>
+
+  <div>
+    <label>Surname</label>
+    <input formControlName="surname" type="text" />
+  </div>
+
+  <div>
+    <label>Date of Birth</label>
+    <input formControlName="dateOfBirth" type="date" />
+  </div>
+
+  <div>
+    <label>Username</label>
+    <input formControlName="username" type="text" />
+  </div>
+
+  <div>
+    <label>Email</label>
+    <input formControlName="email" type="email" />
+  </div>
+
+  <div>
+    <label>Password</label>
+    <input formControlName="password" type="password" />
+  </div>
+
+  <div class="mb-3">
+    <select class="form-select" (change)="onSectorSelected($event)">
+      <option value="">Select your interests</option>
+      <option *ngFor="let sector of sectorsList" [value]="sector.name">
+        {{ sector.name }}
+      </option>
+    </select>
+
+    <div class="mb-2">
+      <ng-container *ngFor="let sector of selectedSectors">
+        <span class="badge text-dark bg-verde me-1">
+          {{ sector }}
+          <button
+            type="button"
+            class="btn-close btn-close-dark btn-sm ms-1"
+            (click)="removeSector(sector)"
+          ></button>
+        </span>
+      </ng-container>
+    </div>
+  </div>
+
+  <div>
+    <label>Profile Picture</label>
+    <input type="file" (change)="onFileSelected($event)" />
+  </div>
+
+  <button class="btn btn-verde rounded-1">Register</button>
+</form>

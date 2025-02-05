@@ -1,1 +1,7 @@
-export interface iProfession {}
+import { iSector } from './i-sector';
+
+export interface iProfession {
+  id?: number;
+  name?: string;
+  sector?: iSector;
+}

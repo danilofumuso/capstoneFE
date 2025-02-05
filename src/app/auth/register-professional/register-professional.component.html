@@ -1,0 +1,200 @@
+<div class="container">
+  <h5 class="mb-5 mt-3 text-center">
+    Please insert your informations and get ready to share your story
+  </h5>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row justify-content-around">
+      <div class="col-4">
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input
+            id="name"
+            formControlName="name"
+            type="text"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="surname" class="form-label">Surname</label>
+          <input
+            id="surname"
+            formControlName="surname"
+            type="text"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="dateOfBirth" class="form-label">Date of Birth</label>
+          <input
+            id="dateOfBirth"
+            formControlName="dateOfBirth"
+            type="date"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            id="email"
+            formControlName="email"
+            type="email"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            id="password"
+            formControlName="password"
+            type="password"
+            class="form-control"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="profilePicture" class="form-label">Profile Picture</label>
+          <input
+            id="profilePicture"
+            type="file"
+            (change)="onFileSelected($event)"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="col-6">
+        <div formArrayName="educationalPaths">
+          <div
+            *ngFor="
+              let educationalpath of educationalPaths.controls;
+              let i = index
+            "
+            [formGroupName]="i"
+            class=""
+          >
+            <h5>Educational Path {{ i + 1 }}</h5>
+
+            <div class="mb-2">
+              <label for="university-{{ i }}" class="form-label"
+                >University</label
+              >
+              <select
+                id="university-{{ i }}"
+                formControlName="universityId"
+                class="form-select"
+                (change)="onUniversityChange(i)"
+              >
+                <option value="">Select University</option>
+                <option *ngFor="let uni of universities" [value]="uni.id">
+                  {{ uni.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-2">
+              <label for="faculty-{{ i }}" class="form-label">Faculty</label>
+              <select
+                id="faculty-{{ i }}"
+                formControlName="facultyId"
+                class="form-select"
+                (change)="onFacultyChange(i)"
+              >
+                <option value="">Select Faculty</option>
+                <option
+                  *ngFor="let fac of facultiesOptions[i]"
+                  [value]="fac.id"
+                >
+                  {{ fac.name }}
+                </option>
+              </select>
+            </div>
+
+            <div class="mb-2">
+              <label for="degreeCourse-{{ i }}" class="form-label"
+                >Degree Course</label
+              >
+              <select
+                id="degreeCourse-{{ i }}"
+                formControlName="degreeCourseId"
+                class="form-select"
+              >
+                <option value="">Select Degree Course</option>
+                <option
+                  *ngFor="let course of coursesOptions[i]"
+                  [value]="course.id"
+                >
+                  {{ course.name }}
+                </option>
+              </select>
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-rosso btn-sm mb-2"
+              (click)="removeEducationalPath(i)"
+            >
+              Remove Educational Path
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="btn btn-blu btn-sm mb2-2"
+          (click)="addEducationalPath()"
+        >
+          Add Another Educational Path
+        </button>
+
+        <div class="mb-3">
+          <label for="sectorId" class="form-label">Sector</label>
+          <select
+            id="sectorId"
+            formControlName="sectorId"
+            class="form-select"
+            (change)="onSectorChange($event)"
+          >
+            <option value="">Select your sector</option>
+            <option *ngFor="let sector of sectorsList" [value]="sector.id">
+              {{ sector.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="professionName" class="form-label">Profession</label>
+          <select
+            id="professionName"
+            formControlName="professionName"
+            class="form-select"
+          >
+            <option value="">Select your profession</option>
+            <option
+              *ngFor="let profession of professionsList"
+              [value]="profession.name"
+            >
+              {{ profession.name }}
+            </option>
+          </select>
+        </div>
+        <button class="btn btn-verde btn-sm rounded-1">Register</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<ngb-alert
+  *ngIf="alertMessage"
+  [type]="alertType"
+  (close)="clearAlert()"
+  [dismissible]="true"
+>
+  {{ alertMessage }}
+</ngb-alert>
