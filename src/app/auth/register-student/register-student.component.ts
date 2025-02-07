@@ -14,18 +14,19 @@ import { environment } from '../../../environments/environment.development';
 export class RegisterStudentComponent implements OnInit {
   form!: FormGroup;
   profilePicture?: File;
+  fileName: string = '';
   sectorsList: iSector[] = [];
   selectedSectors: number[] = [];
 
-  alertMessage?: string;
-  alertType: 'success' | 'danger' = 'success';
+  toastMessage?: string;
+  response: boolean = false;
 
   sectorsUrl: string = environment.sectorsUrl;
 
   constructor(
+    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService,
     private http: HttpClient
   ) {}
 
@@ -52,11 +53,10 @@ export class RegisterStudentComponent implements OnInit {
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) {
-      return;
+    if (input.files && input.files.length > 0) {
+      this.profilePicture = input.files[0];
+      this.fileName = this.profilePicture.name;
     }
-    const file: File = input.files[0];
-    this.profilePicture = file;
   }
   onSectorSelected(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
@@ -107,20 +107,24 @@ export class RegisterStudentComponent implements OnInit {
 
     this.authService.registerStudent(formData).subscribe({
       next: (res) => {
-        this.alertType = 'success';
-        this.alertMessage = 'Student successfully registered!';
+        this.response = true;
+        this.toastMessage = 'Student successfully registered!';
         setTimeout(() => {
           this.router.navigate(['/auth/login']);
-        }, 3000);
+        }, 2000);
       },
       error: (err) => {
-        this.alertType = 'danger';
-        this.alertMessage = 'Error while registering';
+        this.response = false;
+        this.toastMessage = 'Server error while registering!';
+        setTimeout(() => {
+          this.clearToast();
+        }, 3000);
       },
     });
   }
 
-  clearAlert(): void {
-    this.alertMessage = '';
+  clearToast(): void {
+    this.toastMessage = '';
+    this.response = false;
   }
 }

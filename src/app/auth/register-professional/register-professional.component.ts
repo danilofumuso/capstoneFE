@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment.development';
 import { iSector } from '../../interfaces/i-sector';
 import { iProfession } from '../../interfaces/i-profession';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-register-professional',
@@ -17,14 +18,15 @@ import { iProfession } from '../../interfaces/i-profession';
 export class RegisterProfessionalComponent {
   form!: FormGroup;
   profilePicture?: File;
+  fileName: string = '';
   universities: iUniversity[] = [];
   facultiesOptions: { [index: number]: iFaculty[] } = {};
   coursesOptions: { [index: number]: iDegreeCourse[] } = {};
   sectorsList: iSector[] = [];
   professionsList: iProfession[] = [];
 
-  alertMessage?: string;
-  alertType: 'success' | 'danger' = 'success';
+  response: boolean = false;
+  toastMessage?: string;
 
   universitiesUrl: string = environment.universitiesUrl;
   facultiesByUniversityUrl: string = environment.facultiesByUniversityUrl;
@@ -33,6 +35,7 @@ export class RegisterProfessionalComponent {
   professionsBySectorUrl: string = environment.professionsBySectorUrl;
 
   constructor(
+    private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
     private http: HttpClient
@@ -177,6 +180,7 @@ export class RegisterProfessionalComponent {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.profilePicture = input.files[0];
+      this.fileName = this.profilePicture.name;
     }
   }
 
@@ -201,22 +205,27 @@ export class RegisterProfessionalComponent {
     if (this.profilePicture) {
       formData.append('profilePicture', this.profilePicture);
     }
-    this.http.post(environment.registerProfessionalUrl, formData).subscribe({
-      next: (res) => {
-        this.alertType = 'success';
-        this.alertMessage = 'Professional successfully registered!';
+
+    this.authService.registerProfessional(formData).subscribe({
+      next: () => {
+        this.response = true;
+        this.toastMessage = 'Professional successfully registered!';
         setTimeout(() => {
           this.router.navigate(['/auth/login']);
-        }, 3000);
+        }, 2000);
       },
-      error: (err) => {
-        this.alertType = 'danger';
-        this.alertMessage = 'Error while registering professional: ';
+      error: () => {
+        this.response = false;
+        this.toastMessage = 'Server error while registering!';
+        setTimeout(() => {
+          this.clearToast();
+        }, 3000);
       },
     });
   }
 
-  clearAlert(): void {
-    this.alertMessage = '';
+  clearToast(): void {
+    this.toastMessage = '';
+    this.response = false;
   }
 }
