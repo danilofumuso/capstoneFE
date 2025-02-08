@@ -1,8 +1,8 @@
 <div class="container">
-  <h5 class="mb-5 mt-3 text-center">Enter your credentials here.</h5>
+  <h5 class="mb-5 mt-5 text-center">Enter your credentials here</h5>
   <form [formGroup]="form" (ngSubmit)="login()">
     <div class="row justify-content-center">
-      <div class="col-10 col-md-6">
+      <div class="col-10 col-md-6 d-flex flex-column align-items-center">
         <div class="d-flex flex-column align-items-center">
           <div class="input-wrapper mb-3">
             <input
@@ -45,18 +45,63 @@
           <button class="custom-button border-blu m-4">
             <span class="text-blu"> Log In </span>
           </button>
-
-          <ngb-alert
-            *ngIf="alertMessage"
-            [type]="alertType"
-            (close)="clearAlert()"
-            [dismissible]="true"
-            class="rounded-0"
-          >
-            {{ alertMessage }}
-          </ngb-alert>
+        </div>
+        <div class="d-flex flex-column align-items-center">
+          <small>Not registered yet? Register as</small>
+          <div class="d-flex align-items-center justify-content-between">
+            <button
+              class="custom-button mt-2 mb-3 me-2 border-blu"
+              routerLink="/auth/registerStudent"
+            >
+              <span class="text-blu"> Student </span>
+            </button>
+            <small>or</small>
+            <button
+              class="custom-button button-large mt-2 mb-3 ms-2 border-blu"
+              routerLink="/auth/registerProfessional"
+            >
+              <span class="text-blu"> Professional </span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </form>
+</div>
+
+<div
+  *ngIf="toastMessage"
+  class="toast-container position-fixed top-50 start-50 translate-middle"
+>
+  <div
+    class="toast show rounded-0 border-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="toast-header bg-background rounded-0 border-0">
+      @if (response) {
+      <strong class="me-auto">Logged In!</strong>
+
+      } @if(!response){
+
+      <strong class="me-auto text-dark">Error!</strong>
+      }
+      <small class="text-dark">now</small>
+      <button
+        (click)="clearToast()"
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div
+      [ngClass]="response ? 'bg-verde text-dark' : 'bg-rosso text-white'"
+      class="toast-body rounded-0 border-0"
+    >
+      {{ toastMessage }}
+    </div>
+  </div>
 </div>

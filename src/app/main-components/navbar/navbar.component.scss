@@ -3,13 +3,12 @@ img {
 }
 
 nav {
-  button {
-    height: 45px;
-    width: 70px;
-  }
-
   button:focus {
     outline: none;
     box-shadow: none;
   }
+
+  background-color: transparent;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(10px);
 }

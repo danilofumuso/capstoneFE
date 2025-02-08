@@ -1,14 +1,14 @@
-<div class="container-fluid">
+<div class="container-fluid sticky-top">
   <div class="d-flex justify-content-sm-end">
     <nav
-      class="navbar navbar-expand-sm mt-3 border border-blu border-2 flex-grow-1 flex-sm-grow-0 justify-content-between me-sm-3"
+      class="navbar navbar-expand-sm mt-3 border border-blu border-2 flex-grow-1 flex-sm-grow-0 justify-content-between mx-sm-3"
     >
       <a class="" routerLink="/home">
         <img class="bg-blu rounded-circle ms-2" src="logo.png" alt="logo" />
       </a>
 
       <button
-        class="navbar-toggler rounded-0 border-blu custom-button me-2 me-sm-0"
+        class="navbar-toggler border-0 me-2 me-sm-0"
         type="button"
         (click)="toggleMenu()"
         [attr.aria-expanded]="!isMenuCollapsed"
@@ -41,6 +41,23 @@
               routerLink="/favourite"
               (click)="closeMenu()"
               >FAVOURITE</a
+            >
+          </li>
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a
+              class="nav-link fw-bold"
+              routerLink="/favourite"
+              (click)="closeMenu()"
+              >LOG IN</a
+            >
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a
+              class="nav-link fw-bold"
+              routerLink="/favourite"
+              (click)="closeMenu()"
+              (click)="logout()"
+              >LOG OUT</a
             >
           </li>
         </ul>

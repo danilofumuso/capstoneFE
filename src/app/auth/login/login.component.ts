@@ -12,8 +12,9 @@ import { iAuthResponse } from '../../interfaces/i-auth-response';
 })
 export class LoginComponent {
   form!: FormGroup;
-  alertMessage?: string;
-  alertType: 'success' | 'danger' = 'success';
+
+  response: boolean = false;
+  toastMessage?: string;
 
   constructor(
     private authSvc: AuthService,
@@ -40,21 +41,24 @@ export class LoginComponent {
       const formData: iLoginRequest = this.form.value;
       this.authSvc.login(formData).subscribe({
         next: () => {
-          this.alertType = 'success';
-          this.alertMessage = 'Logged in successfully';
+          this.response = true;
+          this.toastMessage = 'Logged in successfully!';
           setTimeout(() => {
             this.router.navigate(['/dashboard']);
           }, 1000);
         },
         error: () => {
-          this.alertType = 'danger';
-          this.alertMessage = 'Error while logging in, please try again';
+          this.response = false;
+          this.toastMessage = 'Incorrect credentials!';
+          setTimeout(() => {
+            this.clearToast();
+          }, 3000);
         },
       });
     }
   }
-
-  clearAlert(): void {
-    this.alertMessage = '';
+  clearToast(): void {
+    this.toastMessage = '';
+    this.response = false;
   }
 }

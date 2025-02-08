@@ -20,6 +20,17 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   font-variation-settings: "wdth" 100;
 }
 
+.container {
+  min-height: 73vh;
+}
+
+.toast-header {
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
 .custom-button {
   position: relative;
   height: 50px;
@@ -78,6 +89,11 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   position: relative;
   font-weight: 600;
   cursor: crosshair;
+}
+
+.button-large {
+  height: 55px;
+  width: 120px;
 }
 
 //Input

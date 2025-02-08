@@ -1,5 +1,5 @@
 <div class="container">
-  <h5 class="mb-5 mt-3 text-center">
+  <h5 class="mb-5 mt-5 text-center">
     Please enter your informations and get ready to share your story
   </h5>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -245,6 +245,16 @@
       </div>
     </div>
   </form>
+  <div class="d-flex align-items-center mt-5 justify-content-center">
+    <small>Are you already registered? Go to</small>
+
+    <button
+      class="custom-button mt-2 mb-3 ms-2 border-blu"
+      routerLink="/auth/login"
+    >
+      <span class="text-blu">Log In</span>
+    </button>
+  </div>
 </div>
 
 <div
@@ -259,7 +269,7 @@
   >
     <div class="toast-header bg-background rounded-0 border-0">
       @if (response) {
-      <strong class="me-auto">Logged In!</strong>
+      <strong class="me-auto">Registered!</strong>
 
       } @if(!response){
 

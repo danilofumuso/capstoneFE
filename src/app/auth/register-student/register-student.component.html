@@ -1,5 +1,5 @@
 <div class="container">
-  <h5 class="mb-5 mt-3 text-center">
+  <h5 class="mb-5 mt-5 text-center">
     Please enter your informations and get ready to discover your professional
     path
   </h5>
@@ -154,48 +154,58 @@
               </ng-container>
             </div>
           </div>
-          <button class="custom-button border-blu mt-2">
+          <button class="custom-button border-blu">
             <span class="text-blu"> Register </span>
           </button>
         </div>
       </div>
     </div>
   </form>
+  <div class="d-flex align-items-center mt-5 justify-content-center">
+    <small>Are you already registered? Go to</small>
 
-  <div
-    *ngIf="toastMessage"
-    class="toast-container position-fixed top-50 start-50 translate-middle p-3"
-  >
-    <div
-      class="toast show rounded-0"
-      role="alert"
-      aria-live="assertive"
-      aria-atomic="true"
+    <button
+      class="custom-button mt-2 mb-3 ms-2 border-blu"
+      routerLink="/auth/login"
     >
-      <div class="toast-header bg-background rounded-0 border-0">
-        @if (response) {
-        <strong class="me-auto">Logged In</strong>
+      <span class="text-blu">Log In</span>
+    </button>
+  </div>
+</div>
 
-        } @if(!response){
+<div
+  *ngIf="toastMessage"
+  class="toast-container position-fixed top-50 start-50 translate-middle p-3"
+>
+  <div
+    class="toast show rounded-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="toast-header bg-background rounded-0 border-0">
+      @if (response) {
+      <strong class="me-auto">Registered!</strong>
 
-        <strong class="me-auto text-dark">Server Error!</strong>
-        }
-        <small class="text-dark">now</small>
-        <button
-          (click)="clearToast()"
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="toast"
-          aria-label="Close"
-        ></button>
-      </div>
+      } @if(!response){
 
-      <div
-        [ngClass]="response ? 'bg-verde text-dark' : 'bg-rosso text-white'"
-        class="toast-body rounded-0 border-0"
-      >
-        {{ toastMessage }}
-      </div>
+      <strong class="me-auto text-dark">Server Error!</strong>
+      }
+      <small class="text-dark">now</small>
+      <button
+        (click)="clearToast()"
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div
+      [ngClass]="response ? 'bg-verde text-dark' : 'bg-rosso text-white'"
+      class="toast-body rounded-0 border-0"
+    >
+      {{ toastMessage }}
     </div>
   </div>
 </div>

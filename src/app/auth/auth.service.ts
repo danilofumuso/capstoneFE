@@ -6,9 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { iAuthResponse } from '../interfaces/i-auth-response';
 import { iLoginRequest } from '../interfaces/i-login-request';
-import { iStudent } from '../interfaces/i-student';
-import { iProfessional } from '../interfaces/i-professional';
-import { iStudentDTO } from '../interfaces/i-student-dto';
 import { iRegisterDTO } from '../interfaces/i-register-dto';
 
 @Injectable({
@@ -34,9 +31,7 @@ export class AuthService {
 
   autoLogoutTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {
-    this.restoreUser();
-  }
+  constructor(private http: HttpClient, private router: Router) {}
 
   register(formData: FormData): Observable<iRegisterDTO> {
     return this.http.post<iRegisterDTO>(this.registerUrl, formData);
@@ -77,18 +72,5 @@ export class AuthService {
     const expMs = expDate.getTime() - new Date().getTime();
 
     this.autoLogoutTimer = setTimeout(() => {}, expMs);
-  }
-
-  restoreUser() {
-    const userJson: string | null = localStorage.getItem('accessData');
-    if (!userJson) return;
-    const accessData: iAuthResponse = JSON.parse(userJson);
-
-    if (this.jwtHelper.isTokenExpired(accessData.accessToken)) {
-      localStorage.removeItem('accessData');
-      return;
-    }
-
-    this.authSubject$.next(accessData);
   }
 }
