@@ -238,7 +238,10 @@
               </select>
             </div>
           </div>
-          <button class="custom-button border-blu mt-3">
+          <button
+            class="custom-button border-blu mt-3"
+            [disabled]="form.invalid"
+          >
             <span class="text-blu"> Register </span>
           </button>
         </div>

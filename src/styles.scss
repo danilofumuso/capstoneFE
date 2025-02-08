@@ -64,10 +64,6 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   left: 8px;
 }
 
-.custom-button:hover {
-  cursor: crosshair;
-}
-
 .custom-button:active {
   transform: scale(0.95);
 }
@@ -89,6 +85,14 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
   position: relative;
   font-weight: 600;
   cursor: crosshair;
+}
+
+.custom-button:hover {
+  cursor: crosshair;
+}
+
+.custom-button:disabled {
+  cursor: not-allowed;
 }
 
 .button-large {

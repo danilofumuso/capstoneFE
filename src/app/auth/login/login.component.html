@@ -42,7 +42,10 @@
             </div>
           </div>
 
-          <button class="custom-button border-blu m-4">
+          <button
+            class="custom-button border-blu m-4"
+            [disabled]="form.invalid"
+          >
             <span class="text-blu"> Log In </span>
           </button>
         </div>

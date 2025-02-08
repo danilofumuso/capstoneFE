@@ -31,7 +31,9 @@ export class AuthService {
 
   autoLogoutTimer: any;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) {
+    this.restoreUser();
+  }
 
   register(formData: FormData): Observable<iRegisterDTO> {
     return this.http.post<iRegisterDTO>(this.registerUrl, formData);
@@ -72,5 +74,13 @@ export class AuthService {
     const expMs = expDate.getTime() - new Date().getTime();
 
     this.autoLogoutTimer = setTimeout(() => {}, expMs);
+  }
+
+  restoreUser() {
+    const userJson: string | null = localStorage.getItem('accessData');
+    if (!userJson) return;
+    const accessData: iAuthResponse = JSON.parse(userJson);
+
+    this.authSubject$.next(accessData);
   }
 }
