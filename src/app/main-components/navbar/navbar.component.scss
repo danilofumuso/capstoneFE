@@ -1,0 +1,15 @@
+img {
+  width: 35px;
+}
+
+nav {
+  button {
+    height: 45px;
+    width: 70px;
+  }
+
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+}

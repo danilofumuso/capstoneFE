@@ -1,1 +1,50 @@
-<p>navbar works!</p>
+<div class="container-fluid">
+  <div class="d-flex justify-content-sm-end">
+    <nav
+      class="navbar navbar-expand-sm mt-3 border border-blu border-2 flex-grow-1 flex-sm-grow-0 justify-content-between me-sm-3"
+    >
+      <a class="" routerLink="/home">
+        <img class="bg-blu rounded-circle ms-2" src="logo.png" alt="logo" />
+      </a>
+
+      <button
+        class="navbar-toggler rounded-0 border-blu custom-button me-2 me-sm-0"
+        type="button"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="!isMenuCollapsed"
+        aria-label="Toggle navigation"
+      >
+        <span class="text-blu">MENU</span>
+      </button>
+
+      <div
+        [ngClass]="{ collapse: isMenuCollapsed, 'navbar-collapse': true }"
+        id="navbarNavDropdown"
+      >
+        <ul class="navbar-nav ms-2 ms-sm-0">
+          <li class="nav-item">
+            <a class="nav-link fw-bold" routerLink="/home" (click)="closeMenu()"
+              >HOME</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link fw-bold"
+              routerLink="/dashboard"
+              (click)="closeMenu()"
+              >DASHBOARD</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              class="nav-link fw-bold"
+              routerLink="/favourite"
+              (click)="closeMenu()"
+              >FAVOURITE</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</div>

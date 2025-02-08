@@ -13,7 +13,7 @@ const routes: Routes = [
       import('./pages/home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: 'landingPage',
+    path: '',
     loadChildren: () =>
       import('./pages/landing-page/landing-page.module').then(
         (m) => m.LandingPageModule
