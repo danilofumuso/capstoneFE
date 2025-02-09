@@ -1,5 +1,5 @@
 <div class="container">
-  <h4 class="mb-5 mt-5 text-center">
+  <h4 class="mb-5 mt-5 text-center fw-light">
     Please enter your informations and get ready to discover your professional
     path
   </h4>
@@ -34,7 +34,7 @@
               *ngIf="
                 form.get('surname')?.invalid && form.get('surname')?.touched
               "
-              class="text-rosso"
+              class="text-rosso text-center"
             >
               Please enter your surname!
             </div>
@@ -54,7 +54,7 @@
                 form.get('dateOfBirth')?.invalid &&
                 form.get('dateOfBirth')?.touched
               "
-              class="text-rosso"
+              class="text-rosso text-center"
             >
               Please enter your date of birth!
             </div>
@@ -69,7 +69,7 @@
             />
             <div
               *ngIf="form.get('email')?.invalid && form.get('email')?.touched"
-              class="text-rosso"
+              class="text-rosso text-center"
             >
               Please enter a valid mail!
             </div>
@@ -90,7 +90,7 @@
               *ngIf="
                 form.get('username')?.invalid && form.get('username')?.touched
               "
-              class="text-rosso"
+              class="text-rosso text-center"
             >
               Please enter a username!
             </div>
@@ -107,7 +107,7 @@
               *ngIf="
                 form.get('password')?.invalid && form.get('password')?.touched
               "
-              class="text-rosso"
+              class="text-rosso text-center"
             >
               Please enter a password!
             </div>
@@ -133,6 +133,7 @@
           <div class="input-wrapper mb-3">
             <select
               class="input-box bg-background"
+              formControlName="sectorsOfInterestId"
               (change)="onSectorSelected($event)"
             >
               <option value="">Select Your Interests</option>
@@ -140,6 +141,12 @@
                 {{ sector.name }}
               </option>
             </select>
+            <div
+              *ngIf="form.get('sectorsOfInterestId')?.touched"
+              class="text-rosso text-center"
+            >
+              Please select your sectors of interest
+            </div>
 
             <div class="my-2 d-flex justify-content-center flex-wrap">
               <ng-container *ngFor="let sectorId of selectedSectors">

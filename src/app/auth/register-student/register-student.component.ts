@@ -34,11 +34,11 @@ export class RegisterStudentComponent implements OnInit {
     this.form = this.fb.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
-      dateOfBirth: [''],
+      dateOfBirth: ['', Validators.required],
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
-      sectorsOfInterestId: [[], Validators.required],
+      sectorsOfInterestId: [[]],
     });
 
     this.http.get<iSector[]>(this.sectorsUrl).subscribe({
@@ -58,6 +58,7 @@ export class RegisterStudentComponent implements OnInit {
       this.fileName = this.profilePicture.name;
     }
   }
+
   onSectorSelected(event: Event): void {
     const selectElement = event.target as HTMLSelectElement;
     const selectedValue = selectElement.value;

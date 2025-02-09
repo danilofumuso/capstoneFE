@@ -49,6 +49,7 @@ export class RegisterProfessionalComponent {
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
+      sectorId: ['', Validators.required],
       professionId: ['', Validators.required],
       educationalPaths: this.fb.array([]),
     });

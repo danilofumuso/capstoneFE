@@ -38,7 +38,8 @@ small {
 }
 
 .container {
-  min-height: 73vh;
+  flex-grow: 1;
+  min-height: 82vh;
 }
 
 .toast-header {

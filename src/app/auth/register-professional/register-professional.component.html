@@ -1,5 +1,5 @@
 <div class="container">
-  <h4 class="mb-5 mt-5 text-center">
+  <h4 class="mb-5 mt-5 text-center fw-light">
     Please enter your informations and get ready to share your story
   </h4>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
@@ -159,6 +159,15 @@
                     {{ uni.name }}
                   </option>
                 </select>
+                <div
+                  *ngIf="
+                    educationalpath.get('universityId')?.invalid &&
+                    educationalpath.get('universityId')?.touched
+                  "
+                  class="text-rosso text-center"
+                >
+                  Please select a university!
+                </div>
               </div>
 
               <div class="input-wrapper mb-3">
@@ -176,6 +185,15 @@
                     {{ faculty.name }}
                   </option>
                 </select>
+                <div
+                  *ngIf="
+                    educationalpath.get('facultyId')?.invalid &&
+                    educationalpath.get('facultyId')?.touched
+                  "
+                  class="text-rosso text-center"
+                >
+                  Please select a faculty!
+                </div>
               </div>
 
               <div class="input-wrapper mb-3">
@@ -192,6 +210,15 @@
                     {{ course.name }}
                   </option>
                 </select>
+                <div
+                  *ngIf="
+                    educationalpath.get('degreeCourseId')?.invalid &&
+                    educationalpath.get('degreeCourseId')?.touched
+                  "
+                  class="text-rosso text-center"
+                >
+                  Please select a degree course!
+                </div>
               </div>
 
               <button
@@ -213,6 +240,7 @@
             <div class="input-wrapper mb-3">
               <select
                 class="input-box bg-background"
+                formControlName="sectorId"
                 (change)="onSectorChange($event)"
               >
                 <option value="">Select Sector</option>
@@ -220,8 +248,15 @@
                   {{ sector.name }}
                 </option>
               </select>
+              <div
+                *ngIf="
+                  form.get('sectorId')?.invalid && form.get('sectorId')?.touched
+                "
+                class="text-rosso text-center"
+              >
+                Please select a sector!
+              </div>
             </div>
-
             <div class="input-wrapper mb-3">
               <select
                 id="professionId"
@@ -236,6 +271,15 @@
                   {{ profession.name }}
                 </option>
               </select>
+              <div
+                *ngIf="
+                  form.get('professionId')?.invalid &&
+                  form.get('professionId')?.touched
+                "
+                class="text-rosso text-center"
+              >
+                Please select a profession!
+              </div>
             </div>
           </div>
           <button
