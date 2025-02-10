@@ -4,7 +4,7 @@ import { iUser } from './i-user';
 
 export interface iStudent {
   id?: number;
-  user?: iUser;
+  appUser?: iUser;
   sectorsOfInterest?: iSector[];
   favorites?: iFavourite[];
 }

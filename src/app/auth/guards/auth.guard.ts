@@ -22,13 +22,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
     return this.authSvc.isLoggedIn$.pipe(
-      map((isLoggedIn) => {
-        if (!isLoggedIn) {
-          this.router.navigate(['/auth/login']);
-        }
-
-        return isLoggedIn;
-      })
+      map((bool) => (bool ? true : this.router.createUrlTree(['/auth/login'])))
     );
   }
   canActivateChild(

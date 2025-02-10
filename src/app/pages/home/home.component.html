@@ -1,1 +1,7 @@
-<div class="container">ciao</div>
+<div class="container">
+  <div class="row">
+    <div *ngFor="let professional of professionals" class="col">
+      <app-card [professional]="professional"></app-card>
+    </div>
+  </div>
+</div>

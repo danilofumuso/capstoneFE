@@ -22,12 +22,8 @@ export class GuestGuard implements CanActivate, CanActivateChild {
     state: RouterStateSnapshot
   ): MaybeAsync<GuardResult> {
     return this.authSvc.isLoggedIn$.pipe(
-      map((isLoggedIn) => {
-        if (isLoggedIn) {
-          this.router.navigate(['/dashboard']);
-        }
-
-        return !isLoggedIn;
+      map((bool) => {
+        return !bool ? true : this.router.createUrlTree(['/studentDashboard']);
       })
     );
   }

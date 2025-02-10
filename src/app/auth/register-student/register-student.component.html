@@ -130,7 +130,7 @@
             </div>
             <span *ngIf="fileName">{{ fileName }}</span>
           </div>
-          <div class="input-wrapper mb-3">
+          <div class="input-wrapper my-3">
             <select
               class="input-box bg-background"
               formControlName="sectorsOfInterestId"
@@ -141,16 +141,10 @@
                 {{ sector.name }}
               </option>
             </select>
-            <div
-              *ngIf="form.get('sectorsOfInterestId')?.touched"
-              class="text-rosso text-center"
-            >
-              Please select your sectors of interest
-            </div>
 
             <div class="my-2 d-flex justify-content-center flex-wrap">
               <ng-container *ngFor="let sectorId of selectedSectors">
-                <span class="badge text-dark bg-verde me-2 mt-2 pb-2">
+                <span class="badge text-blu bg-verde me-2 mt-2 pb-2">
                   {{ getSectorNameById(sectorId) }}
                   <button
                     type="button"

@@ -4,10 +4,10 @@ import { iUser } from './i-user';
 
 export interface iProfessional {
   id?: number;
-  user?: iUser;
-  educationalPaths?: iEducationalPath[];
-  profession?: iProfession;
-  writtenStory?: string;
-  videoStory?: string;
-  curriculumVitae?: string;
+  appUser: iUser;
+  educationalPaths: iEducationalPath[];
+  profession: iProfession;
+  writtenStory: string;
+  videoStory: string;
+  curriculumVitae: string;
 }

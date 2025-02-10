@@ -14,6 +14,7 @@ import { iProfessionDTO } from '../interfaces/i-profession-dto';
 })
 export class ProfessionalService {
   private professionalsUrl = environment.professionalsUrl;
+  private professionalsBySectorUrl = environment.professionalsBySectorsUrl;
   private professionalEducationalPathUrl =
     environment.professionalEducationalPathUrl;
   private professionalProfessionUrl = environment.professionalProfessionUrl;
@@ -25,6 +26,7 @@ export class ProfessionalService {
     environment.professionalCurriculumVitaeUrl;
 
   constructor(private http: HttpClient) {}
+
   getAllProfessionals(
     page: number = 0,
     size: number = 10
@@ -33,6 +35,18 @@ export class ProfessionalService {
       .set('page', page.toString())
       .set('size', size.toString());
     return this.http.get<iPageProfessional>(this.professionalsUrl, { params });
+  }
+
+  getProfessionalsBySector(
+    page: number = 0,
+    size: number = 10
+  ): Observable<iPageProfessional> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<iPageProfessional>(this.professionalsBySectorUrl, {
+      params,
+    });
   }
 
   getProfessionalById(id: number): Observable<iProfessional> {
