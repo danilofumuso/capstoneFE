@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { iLoginRequest } from '../../interfaces/i-login-request';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { iAuthResponse } from '../../interfaces/i-auth-response';
+import { take } from 'rxjs';
+import { Role } from '../../enums/role';
 
 @Component({
   selector: 'app-login',
@@ -44,7 +46,13 @@ export class LoginComponent {
           this.response = true;
           this.toastMessage = 'Logged in successfully!';
           setTimeout(() => {
-            this.router.navigate(['/dashboard']);
+            this.authSvc.user$.pipe(take(1)).subscribe((user) => {
+              if (user?.roles.includes(Role.ROLE_STUDENT)) {
+                this.router.navigate(['/studentDashboard']);
+              } else if (user?.roles.includes(Role.ROLE_PROFESSIONAL)) {
+                this.router.navigate(['/professionalDashboard']);
+              }
+            });
           }, 1000);
         },
         error: () => {

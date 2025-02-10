@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { GuestGuard } from './auth/guards/guest.guard';
 import { AuthGuard } from './auth/guards/auth.guard';
+import { RoleGuard } from './auth/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () =>
       import('./pages/home/home.module').then((m) => m.HomeModule),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
     path: '',
@@ -29,14 +30,22 @@ const routes: Routes = [
       import('./pages/favourite/favourite.module').then(
         (m) => m.FavouriteModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleGuard],
   },
   {
-    path: 'dashboard',
+    path: 'studentDashboard',
     loadChildren: () =>
-      import('./pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
+      import('./pages/student-dashboard/student-dashboard.module').then(
+        (m) => m.StudentDashboardModule
       ),
+    canActivate: [AuthGuard, RoleGuard],
+  },
+  {
+    path: 'professionalDashboard',
+    loadChildren: () =>
+      import(
+        './pages/professional-dashboard/professional-dashboard.module'
+      ).then((m) => m.ProfessionalDashboardModule),
     canActivate: [AuthGuard],
   },
 ];

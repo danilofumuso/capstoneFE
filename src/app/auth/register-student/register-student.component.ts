@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { iSector } from '../../interfaces/i-sector';
 import { environment } from '../../../environments/environment.development';
+import { iRegisterDTO } from '../../interfaces/i-register-dto';
 
 @Component({
   selector: 'app-register-student',
@@ -89,7 +90,7 @@ export class RegisterStudentComponent implements OnInit {
       return;
     }
 
-    const registerDtoPayload = {
+    const payload: iRegisterDTO = {
       name: this.form.value.name,
       surname: this.form.value.surname,
       dateOfBirth: this.form.value.dateOfBirth,
@@ -100,7 +101,7 @@ export class RegisterStudentComponent implements OnInit {
     };
 
     const formData = new FormData();
-    formData.append('appUser', JSON.stringify(registerDtoPayload));
+    formData.append('appUser', JSON.stringify(payload));
 
     if (this.profilePicture) {
       formData.append('profilePicture', this.profilePicture);

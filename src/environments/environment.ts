@@ -16,6 +16,12 @@ export const environment = {
   facultiesByUniversityUrl: 'http://localhost:8080/api/faculties/byUniversity',
 
   professionalsUrl: 'http://localhost:8080/api/professionals',
+  professionalEducationalPathUrl:
+    'http://localhost:8080/api/professionals/educationalPath',
+  professionalProfessionUrl:
+    'http://localhost:8080/api/professionals/profession',
+  professionalProfilePictureUrl:
+    'http://localhost:8080/api/professionals/profilePicture',
   professionalWrittenStoryUrl:
     'http://localhost:8080/api/professionals/writtenStory',
   professionalVideoStoryUrl:
@@ -29,6 +35,8 @@ export const environment = {
   sectorsUrl: 'http://localhost:8080/api/sectors',
 
   studentsUrl: 'http://localhost:8080/api/students',
-
+  studentSectorsOfInterestUrl:
+    'http://localhost:8080/api/students/sectorsOfInterest',
+  studentProfilePictureUrl: 'http://localhost:8080/api/students/profilePicture',
   universitiesUrl: 'http://localhost:8080/api/universities',
 };

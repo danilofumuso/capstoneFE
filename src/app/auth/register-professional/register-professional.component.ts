@@ -9,6 +9,7 @@ import { environment } from '../../../environments/environment.development';
 import { iSector } from '../../interfaces/i-sector';
 import { iProfession } from '../../interfaces/i-profession';
 import { AuthService } from '../auth.service';
+import { iRegisterDTO } from '../../interfaces/i-register-dto';
 
 @Component({
   selector: 'app-register-professional',
@@ -19,9 +20,11 @@ export class RegisterProfessionalComponent {
   form!: FormGroup;
   profilePicture?: File;
   fileName: string = '';
+
   universities: iUniversity[] = [];
   facultiesOptions: { [index: number]: iFaculty[] } = {};
   coursesOptions: { [index: number]: iDegreeCourse[] } = {};
+
   sectorsList: iSector[] = [];
   professionsList: iProfession[] = [];
 
@@ -190,7 +193,7 @@ export class RegisterProfessionalComponent {
       return;
     }
 
-    const payload = {
+    const payload: iRegisterDTO = {
       name: this.form.value.name,
       surname: this.form.value.surname,
       dateOfBirth: this.form.value.dateOfBirth,

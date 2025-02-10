@@ -5,5 +5,4 @@ export interface iStudentDTO {
   username?: string;
   email?: string;
   password?: string;
-  sectorsOfInterest?: string[];
 }

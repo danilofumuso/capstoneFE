@@ -22,20 +22,20 @@
         id="navbarNavDropdown"
       >
         <ul class="navbar-nav ms-2 ms-sm-0">
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn && isStudent" class="nav-item">
             <a class="nav-link fw-bold" routerLink="/home" (click)="closeMenu()"
               >HOME</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn" class="nav-item">
             <a
               class="nav-link fw-bold"
-              routerLink="/dashboard"
+              [routerLink]="dashboardLink"
               (click)="closeMenu()"
               >DASHBOARD</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn && isStudent" class="nav-item">
             <a
               class="nav-link fw-bold"
               routerLink="/favourite"

@@ -5,5 +5,4 @@ export interface iProfessionalDTO {
   username?: string;
   email?: string;
   password?: string;
-  professionName?: string;
 }
