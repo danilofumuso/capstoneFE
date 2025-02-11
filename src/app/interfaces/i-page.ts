@@ -1,10 +1,11 @@
+import { iFavourite } from './i-favourite';
 import { iProfessional } from './i-professional';
 
-export interface iPageProfessional {
+export interface iPage {
   totalElements: number;
   totalPages: number;
   size: number;
-  content: iProfessional[];
+  content: iProfessional[] | iFavourite[];
   number: number;
   sort: Sort;
   numberOfElements: number;

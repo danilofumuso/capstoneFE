@@ -1,7 +1,72 @@
 <div class="container">
-  <div class="row">
-    <div *ngFor="let professional of professionals" class="col">
+  <form [formGroup]="form" (ngSubmit)="onFilter()">
+    <div class="row mt-5">
+      <div
+        class="col-12 col-md-6 col-lg-3 d-flex justify-content-center justify-content-lg-start mt-3"
+      >
+        <div class="input-wrapper">
+          <select
+            formControlName="sectorId"
+            class="input-box bg-background"
+            (change)="onSectorChange($event)"
+          >
+            <option value="">Filter By Sectors</option>
+            <option *ngFor="let sector of sectorsList" [value]="sector.id">
+              {{ sector.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="col-12 col-md-6 col-lg-3 d-flex justify-content-center justify-content-lg-start mt-3"
+      >
+        <div class="input-wrapper">
+          <select
+            formControlName="professionId"
+            class="input-box bg-background"
+          >
+            <option value="">Filter By Profession</option>
+            <option
+              *ngFor="let profession of professionsList"
+              [value]="profession.id"
+            >
+              {{ profession.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div
+        class="col-12 col-md-12 col-lg-6 d-flex justify-content-center justify-content-lg-start mt-3"
+      >
+        <button class="custom-button button-small border-blu">
+          <span class="text-blu"> Filter </span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row mt-4">
+    <div
+      *ngFor="let professional of professionals"
+      class="col-10 col-sm-6 col-md-4 col-lg-3 mt-5 mx-auto mx-sm-0 mb-5"
+    >
       <app-card [professional]="professional"></app-card>
+    </div>
+
+    <div
+      *ngIf="pageable.totalElements != 0"
+      class="col-12 mt-5 d-flex justify-content-end"
+    >
+      <ngb-pagination
+        [collectionSize]="pageable.totalElements || 0"
+        [(page)]="currentPage"
+        [pageSize]="pageable.size || 10"
+        [maxSize]="5"
+        [rotate]="true"
+        [ellipses]="false"
+        [boundaryLinks]="true"
+        (pageChange)="pageChanged($event)"
+      ></ngb-pagination>
     </div>
   </div>
 </div>

@@ -118,6 +118,11 @@ small {
   width: 120px;
 }
 
+.button-small {
+  height: 42px;
+  width: 67px;
+}
+
 //Input
 .input-wrapper {
   display: flex;
@@ -158,4 +163,19 @@ input::placeholder {
 
 select::placeholder {
   font-size: $font-size-base;
+}
+
+//pagination
+.pagination .page-link {
+  color: #035476ee;
+  background-color: #f5f5f5;
+  border: 1px solid #035476ee;
+  border-radius: 0px !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: #a9edc4;
+  border-color: #035476ee;
+  outline: none;
+  box-shadow: none;
 }

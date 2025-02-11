@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment.development';
-import { iPageProfessional } from '../interfaces/i-page-professional';
+import { iPage } from '../interfaces/i-page';
 import { iProfessional } from '../interfaces/i-professional';
 import { iProfessionalDTO } from '../interfaces/i-professional-dto';
 import { iEducationalPathDTO } from '../interfaces/i-educational-path-dto';
@@ -14,7 +14,9 @@ import { iProfessionDTO } from '../interfaces/i-profession-dto';
 })
 export class ProfessionalService {
   private professionalsUrl = environment.professionalsUrl;
-  private professionalsBySectorUrl = environment.professionalsBySectorsUrl;
+  private professionalsFilteredUrl = environment.professionalsFilteredUrl;
+  private professionalsByStudentSectorsOfInterestUrl =
+    environment.professionalsByStudentSectorsOfInterestUrl;
   private professionalEducationalPathUrl =
     environment.professionalEducationalPathUrl;
   private professionalProfessionUrl = environment.professionalProfessionUrl;
@@ -27,24 +29,38 @@ export class ProfessionalService {
 
   constructor(private http: HttpClient) {}
 
-  getAllProfessionals(
-    page: number = 0,
-    size: number = 10
-  ): Observable<iPageProfessional> {
+  getAllProfessionals(page: number = 0, size: number = 10): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    return this.http.get<iPageProfessional>(this.professionalsUrl, { params });
+    return this.http.get<iPage>(this.professionalsUrl, { params });
   }
 
-  getProfessionalsBySector(
+  getProfessionalsByStudentSectorsOfInterest(
     page: number = 0,
     size: number = 10
-  ): Observable<iPageProfessional> {
+  ): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
-    return this.http.get<iPageProfessional>(this.professionalsBySectorUrl, {
+    return this.http.get<iPage>(
+      this.professionalsByStudentSectorsOfInterestUrl,
+      {
+        params,
+      }
+    );
+  }
+
+  getProfessionalsFiltered(
+    professionDTO: iProfessionDTO,
+    page: number = 0,
+    size: number = 10
+  ): Observable<iPage> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.post<iPage>(this.professionalsFilteredUrl, professionDTO, {
       params,
     });
   }

@@ -1,10 +1,22 @@
-<div class="card">
-  <div class="card-header">{{ professional.profession.name }}</div>
-  <div class="card-body">
-    <h5 class="card-title">
+<div class="card mx-auto">
+  <div class="card-content">
+    <div class="card-photo">
+      <img
+        class=""
+        src="https://www.giulianofroio.com/wp-content/uploads/2021/05/book-fotografico-uomo-IMG_7813.jpg"
+        alt=""
+      />
+    </div>
+    <div class="card-details mt-3">
       {{ professional.appUser.name }} {{ professional.appUser.surname }}
-    </h5>
-    <p class="card-text">Suca</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
+      <br />
+      <span class="">{{ professional.profession.name }} </span>
+    </div>
+    <button
+      (click)="goToProfessionalPage(professional.appUser.id)"
+      class="custom-button button-small border-blu mt-3"
+    >
+      <span class="text-blu">Show</span>
+    </button>
   </div>
 </div>

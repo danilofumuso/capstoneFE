@@ -65,6 +65,7 @@ export class LoginComponent {
       });
     }
   }
+
   clearToast(): void {
     this.toastMessage = '';
     this.response = false;

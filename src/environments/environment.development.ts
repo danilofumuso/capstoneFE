@@ -16,8 +16,9 @@ export const environment = {
   facultiesByUniversityUrl: 'http://localhost:8080/api/faculties/byUniversity',
 
   professionalsUrl: 'http://localhost:8080/api/professionals',
-  professionalsBySectorsUrl:
-    'http://localhost:8080/api/professionals/bySectors',
+  professionalsFilteredUrl: 'http://localhost:8080/api/professionals/filtered',
+  professionalsByStudentSectorsOfInterestUrl:
+    'http://localhost:8080/api/professionals/byStudentSectorsOfInterest',
   professionalEducationalPathUrl:
     'http://localhost:8080/api/professionals/educationalPath',
   professionalProfessionUrl:
