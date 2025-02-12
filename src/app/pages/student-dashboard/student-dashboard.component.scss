@@ -1,0 +1,30 @@
+@media (min-width: 768px) {
+  img {
+    max-width: 350px;
+    bottom: 0;
+    position: sticky;
+  }
+
+  .img-container {
+    height: 100%;
+    min-height: 90vh;
+    display: flex;
+    align-items: end;
+  }
+
+  .img-container > div {
+    position: relative;
+
+    i {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+    }
+  }
+}
+
+@media (max-width: 996px) {
+  img {
+    max-width: 250px;
+  }
+}

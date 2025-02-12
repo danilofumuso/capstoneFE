@@ -42,13 +42,15 @@ export class RegisterStudentComponent implements OnInit {
       sectorsOfInterestId: [[]],
     });
 
+    this.loadSectors();
+  }
+
+  loadSectors(): void {
     this.http.get<iSector[]>(this.sectorsUrl).subscribe({
       next: (data) => {
         this.sectorsList = data;
       },
-      error: (err) => {
-        console.error('Errore nel caricamento settori:', err);
-      },
+      error: (err) => console.error('Error while loading sectors!', err),
     });
   }
 
