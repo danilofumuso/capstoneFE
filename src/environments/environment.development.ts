@@ -6,7 +6,7 @@ export const environment = {
   loginUrl: 'http://localhost:8080/api/auth/login',
 
   degreeCoursesUrl: 'http://localhost:8080/api/degreeCourses',
-  degreeCousersByFaculty: 'http://localhost:8080/api/degreeCourses/byFaculty',
+  degreeCoursesByFaculty: 'http://localhost:8080/api/degreeCourses/byFaculty',
 
   educationalPathsUrl: 'http://localhost:8080/api/educationalPaths',
 

@@ -33,7 +33,7 @@ export class RegisterProfessionalComponent {
 
   universitiesUrl: string = environment.universitiesUrl;
   facultiesByUniversityUrl: string = environment.facultiesByUniversityUrl;
-  degreeCoursesByFaculty: string = environment.degreeCousersByFaculty;
+  degreeCoursesByFaculty: string = environment.degreeCoursesByFaculty;
   sectorsUrl: string = environment.sectorsUrl;
   professionsBySectorUrl: string = environment.professionsBySectorUrl;
 

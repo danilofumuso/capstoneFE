@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div *ngIf="!editingPhoto" class="col-10 col-md-4 mx-auto">
+    <div *ngIf="!editingPhoto" class="col-12 mx-auto">
       <div class="d-flex img-container">
         <div class="text-center">
           <img [src]="student.profilePicture" alt="Profile Picture" />
@@ -45,38 +45,44 @@
         </div>
       </div>
     </div>
-
+  </div>
+  <div class="row">
     <div
-      class="col-10 col-md-4 mt-5 d-flex flex-column justify-content-start mx-auto"
+      class="col-10 col-md-8 col-lg-4 mt-5 d-flex flex-column justify-content-start mx-auto"
     >
-      <div *ngIf="!editingDetails">
-        <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>NAME &nbsp;</h6>
-          <h6 class="fw-light">{{ student.name }}</h6>
-        </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>SURNAME &nbsp;</h6>
-          <h6 class="fw-light">{{ student.surname }}</h6>
-        </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>E-MAIL &nbsp;</h6>
-          <h6 class="fw-light">{{ student.email }}</h6>
-        </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>DATE OF BIRTH &nbsp;</h6>
-          <h6 class="fw-light">{{ student.dateOfBirth }}</h6>
-        </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>USERNAME &nbsp;</h6>
-          <h6 class="fw-light">{{ student.username }}</h6>
-        </div>
-
-        <button
-          (click)="editingDetails = true"
-          class="custom-button border-blu"
+      <div class="bg-blu rounded-0">
+        <div
+          *ngIf="!editingDetails"
+          class="bg-background rounded-4 border border-2 border-blu p-5"
         >
-          <span class="text-blu">Edit</span>
-        </button>
+          <div class="d-flex flex-column justify-content-center mb-2">
+            <h6>NAME &nbsp;</h6>
+            <h6 class="fw-light">{{ student.name }}</h6>
+          </div>
+          <div class="d-flex flex-column justify-content-center mb-2">
+            <h6>SURNAME &nbsp;</h6>
+            <h6 class="fw-light">{{ student.surname }}</h6>
+          </div>
+          <div class="d-flex flex-column justify-content-center mb-2">
+            <h6>E-MAIL &nbsp;</h6>
+            <h6 class="fw-light">{{ student.email }}</h6>
+          </div>
+          <div class="d-flex flex-column justify-content-center mb-2">
+            <h6>DATE OF BIRTH &nbsp;</h6>
+            <h6 class="fw-light">{{ student.dateOfBirth }}</h6>
+          </div>
+          <div class="d-flex flex-column justify-content-center mb-2">
+            <h6>USERNAME &nbsp;</h6>
+            <h6 class="fw-light">{{ student.username }}</h6>
+          </div>
+
+          <button
+            (click)="editingDetails = true"
+            class="custom-button border-blu"
+          >
+            <span class="text-blu">Edit</span>
+          </button>
+        </div>
       </div>
 
       <div *ngIf="editingDetails">
@@ -151,11 +157,6 @@
           </div>
         </form>
       </div>
-    </div>
-
-    <div
-      class="col-10 col-md-4 mt-5 d-flex flex-column justify-content-start mx-auto"
-    >
       <div *ngIf="!editingSectorsOfInterest" class="d-flex flex-column mb-3">
         <h6>SECTORS OF INTEREST &nbsp;</h6>
         <h6 class="fw-light" *ngFor="let interest of sectorsOfInterest">

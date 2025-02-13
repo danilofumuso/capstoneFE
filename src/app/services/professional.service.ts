@@ -105,9 +105,10 @@ export class ProfessionalService {
   updateWrittenStory(
     writtenStory: iProfessionalWrittenStoryDTO
   ): Observable<iProfessional> {
-    return this.http.patch<iProfessional>(this.professionalWrittenStoryUrl, {
-      writtenStory,
-    });
+    return this.http.patch<iProfessional>(
+      this.professionalWrittenStoryUrl,
+      writtenStory
+    );
   }
 
   updateVideoStory(videoStory?: File): Observable<iProfessional> {

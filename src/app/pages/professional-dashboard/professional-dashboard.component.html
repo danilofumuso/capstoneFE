@@ -1,3 +1,406 @@
 <div class="container">
-  <p>professional-dashboard works!</p>
+  <!-- RIGA 1: Foto e Dettagli Personali -->
+  <div class="row">
+    <!-- Colonna Foto -->
+    <div class="col-10 col-md-4 mx-auto">
+      <div *ngIf="!editingPhoto" class="d-flex img-container">
+        <div *ngIf="user.profilePicture" class="text-center">
+          <img
+            [src]="user.profilePicture"
+            alt="Profile Picture"
+            class="img-fluid"
+          />
+        </div>
+        <div *ngIf="checkOwnership()">
+          <button
+            class="border-0 bg-background rounded-0"
+            (click)="editPhoto()"
+          >
+            <i class="bi bi-file-image text-blu"></i>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingPhoto" class="d-flex flex-column my-auto">
+        <div class="d-flex flex-column my-3 mx-auto">
+          <div class="d-flex align-items-center">
+            <label for="profilePicture" class="form-label me-3"
+              >Profile Picture</label
+            >
+            <input
+              id="profilePicture"
+              type="file"
+              (change)="onPhotoSelected($event)"
+              class="hidden-input"
+            />
+            <button class="custom-button border-blu">
+              <label class="text-blu" for="profilePicture">Choose it</label>
+            </button>
+          </div>
+          <span *ngIf="fileName">{{ fileName }}</span>
+        </div>
+        <div class="d-flex mt-3 mx-auto">
+          <button (click)="savePhoto()" class="custom-button border-blu me-3">
+            <span class="text-blu">Save</span>
+          </button>
+          <button (click)="cancelPhotoEdit()" class="custom-button border-blu">
+            <span class="text-blu">Cancel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonna Dettagli Personali -->
+    <div
+      class="col-10 col-md-4 mt-5 d-flex flex-column justify-content-start mx-auto"
+    >
+      <div *ngIf="!editingDetails">
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>NAME&nbsp;</h6>
+          <h6 class="fw-light">{{ user.name }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>SURNAME&nbsp;</h6>
+          <h6 class="fw-light">{{ user.surname }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>E-MAIL&nbsp;</h6>
+          <h6 class="fw-light">{{ user.email }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>DATE OF BIRTH&nbsp;</h6>
+          <h6 class="fw-light">{{ user.dateOfBirth }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>USERNAME&nbsp;</h6>
+          <h6 class="fw-light">{{ user.username }}</h6>
+        </div>
+        <div *ngIf="checkOwnership()">
+          <button (click)="editDetails()" class="custom-button border-blu">
+            <span class="text-blu">Edit Details</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingDetails">
+        <form [formGroup]="detailsForm" (ngSubmit)="saveDetails()">
+          <div class="input-wrapper mb-3">
+            <input
+              id="name"
+              formControlName="name"
+              type="text"
+              placeholder="Your Name"
+              class="input-box"
+            />
+          </div>
+          <div class="input-wrapper mb-3">
+            <input
+              id="surname"
+              formControlName="surname"
+              type="text"
+              placeholder="Your Surname"
+              class="input-box"
+            />
+          </div>
+          <div class="input-wrapper mb-3">
+            <label for="dateOfBirth" class="form-label"
+              >Your Date of Birth</label
+            >
+            <input
+              id="dateOfBirth"
+              formControlName="dateOfBirth"
+              type="date"
+              class="input-box"
+            />
+          </div>
+          <div class="input-wrapper mb-3">
+            <input
+              id="email"
+              formControlName="email"
+              type="email"
+              placeholder="Your E-mail"
+              class="input-box"
+            />
+          </div>
+          <div class="input-wrapper mb-3">
+            <input
+              id="username"
+              formControlName="username"
+              type="text"
+              placeholder="Your Username"
+              class="input-box"
+            />
+          </div>
+          <div class="input-wrapper mb-3">
+            <input
+              id="password"
+              formControlName="password"
+              type="password"
+              placeholder="Your Password"
+              class="input-box"
+            />
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="custom-button border-blu me-2">
+              <span class="text-blu">Save</span>
+            </button>
+            <button
+              type="button"
+              (click)="cancelDetailsEdit()"
+              class="custom-button border-blu"
+            >
+              <span class="text-blu">Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGA 2: Percorso Formativo, Professione e Written Story -->
+  <div class="row mt-5">
+    <!-- Colonna Percorso Formativo -->
+    <div class="col-10 col-md-4 mx-auto">
+      <div *ngIf="!editingEducationalPath">
+        <h6>Educational Path</h6>
+        <div *ngIf="user.professional?.educationalPaths; else noEdu">
+          <div *ngFor="let edu of user.professional?.educationalPaths">
+            <p>
+              {{ edu.university?.name }} - {{ edu.faculty?.name }} -
+              {{ edu.degreeCourse?.name }}
+            </p>
+          </div>
+        </div>
+        <ng-template #noEdu>
+          <p>No educational path added.</p>
+        </ng-template>
+        <div *ngIf="checkOwnership()" class="mt-2">
+          <button
+            (click)="addEducationalPath()"
+            class="custom-button border-blu"
+          >
+            <span class="text-blu">Add Path</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingEducationalPath">
+        <form
+          [formGroup]="educationalPathForm"
+          (ngSubmit)="saveEducationalPath()"
+        >
+          <select
+            formControlName="universityId"
+            (change)="onUniversityChange()"
+            class="form-select mb-2"
+          >
+            <option value="">Select University</option>
+            <option *ngFor="let uni of universities" [value]="uni.id">
+              {{ uni.name }}
+            </option>
+          </select>
+          <select
+            formControlName="facultyId"
+            (change)="onFacultyChange()"
+            class="form-select mb-2"
+          >
+            <option value="">Select Faculty</option>
+            <option *ngFor="let fac of faculties" [value]="fac.id">
+              {{ fac.name }}
+            </option>
+          </select>
+          <select formControlName="degreeCourseId" class="form-select mb-2">
+            <option value="">Select Degree Course</option>
+            <option *ngFor="let course of degreeCourses" [value]="course.id">
+              {{ course.name }}
+            </option>
+          </select>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="custom-button border-blu me-2">
+              <span class="text-blu">Save</span>
+            </button>
+            <button
+              type="button"
+              (click)="cancelEducationalPath()"
+              class="custom-button border-blu"
+            >
+              <span class="text-blu">Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Colonna Professione -->
+    <div class="col-10 col-md-4 mx-auto">
+      <div *ngIf="!editingProfession">
+        <h6>Profession</h6>
+        <p *ngIf="user.professional?.profession; else noProf">
+          {{ user.professional?.profession?.name }}
+        </p>
+        <ng-template #noProf>
+          <p>No profession set.</p>
+        </ng-template>
+        <div *ngIf="checkOwnership()" class="mt-2">
+          <button (click)="editProfession()" class="custom-button border-blu">
+            <span class="text-blu">Edit Profession</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingProfession">
+        <form [formGroup]="professionForm" (ngSubmit)="saveProfession()">
+          <select
+            formControlName="sectorId"
+            (change)="onSectorChange($event)"
+            class="form-select mb-2"
+          >
+            <option value="">Select Sector</option>
+            <option *ngFor="let sector of sectorsList" [value]="sector.id">
+              {{ sector.name }}
+            </option>
+          </select>
+          <select formControlName="id" class="form-select mb-2">
+            <option value="">Select Profession</option>
+            <option *ngFor="let prof of professionsList" [value]="prof.id">
+              {{ prof.name }}
+            </option>
+          </select>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="custom-button border-blu me-2">
+              <span class="text-blu">Save</span>
+            </button>
+            <button
+              type="button"
+              (click)="cancelProfession()"
+              class="custom-button border-blu"
+            >
+              <span class="text-blu">Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Colonna Written Story -->
+    <div class="col-10 col-md-4 mx-auto">
+      <div *ngIf="!editingWrittenStory">
+        <h6>Written Story</h6>
+        <p *ngIf="user.professional?.writtenStory; else noStory">
+          {{ user.professional?.writtenStory }}
+        </p>
+        <ng-template #noStory>
+          <p>No written story added.</p>
+        </ng-template>
+        <div *ngIf="checkOwnership()" class="mt-2">
+          <button (click)="editWrittenStory()" class="custom-button border-blu">
+            <span class="text-blu">Edit Story</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingWrittenStory">
+        <form [formGroup]="writtenStoryForm" (ngSubmit)="saveWrittenStory()">
+          <textarea
+            formControlName="writtenStory"
+            rows="5"
+            placeholder="Your Written Story"
+            class="form-control mb-2"
+          ></textarea>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="custom-button border-blu me-2">
+              <span class="text-blu">Save</span>
+            </button>
+            <button
+              type="button"
+              (click)="cancelWrittenStory()"
+              class="custom-button border-blu"
+            >
+              <span class="text-blu">Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGA 3: Video Story e Curriculum Vitae -->
+  <div class="row mt-5">
+    <!-- Colonna Video Story -->
+    <div class="col-10 col-md-6 mx-auto">
+      <div *ngIf="!editingVideo">
+        <h6>Video Story</h6>
+        <div *ngIf="user.professional?.videoStory; else noVideo">
+          <video controls>
+            <source [src]="user.professional?.videoStory" type="video/mp4" />
+          </video>
+        </div>
+        <ng-template #noVideo>
+          <p>No video story added.</p>
+        </ng-template>
+        <div *ngIf="checkOwnership()" class="mt-2">
+          <button (click)="editVideo()" class="custom-button border-blu">
+            <span class="text-blu">Edit Video</span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="editingVideo">
+        <input
+          type="file"
+          (change)="onVideoSelected($event)"
+          class="form-control mb-2"
+        />
+        <div *ngIf="fileName" class="mb-2">{{ fileName }}</div>
+        <div class="d-flex justify-content-center">
+          <button (click)="saveVideo()" class="custom-button border-blu me-2">
+            <span class="text-blu">Save Video</span>
+          </button>
+          <button (click)="cancelVideo()" class="custom-button border-blu">
+            <span class="text-blu">Cancel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sezione Curriculum Vitae -->
+    <div class="col-10 col-md-6 mx-auto mt-4">
+      <div *ngIf="!editingCurriculum">
+        <h6>Curriculum Vitae</h6>
+        <div *ngIf="user.professional?.curriculumVitae; else noCV">
+          <!-- Pulsante per scaricare il PDF -->
+          <a
+            [href]="user.professional?.curriculumVitae"
+            target="_blank"
+            download
+            class="custom-button border-blu"
+          >
+            <span class="text-blu">Scarica CV</span>
+          </a>
+        </div>
+        <ng-template #noCV>
+          <p>No curriculum vitae added.</p>
+        </ng-template>
+        <div *ngIf="checkOwnership()" class="mt-2">
+          <button (click)="editCurriculum()" class="custom-button border-blu">
+            <span class="text-blu">Edit Curriculum</span>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="editingCurriculum">
+        <input
+          type="file"
+          (change)="onCurriculumSelected($event)"
+          class="form-control mb-2"
+        />
+        <div *ngIf="fileName" class="mb-2">{{ fileName }}</div>
+        <div class="d-flex justify-content-center">
+          <button
+            (click)="saveCurriculum()"
+            class="custom-button border-blu me-2"
+          >
+            <span class="text-blu">Save Curriculum</span>
+          </button>
+          <button (click)="cancelCurriculum()" class="custom-button border-blu">
+            <span class="text-blu">Cancel</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
