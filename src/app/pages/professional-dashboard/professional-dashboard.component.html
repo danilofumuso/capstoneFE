@@ -4,9 +4,9 @@
     <!-- Colonna Foto -->
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingPhoto" class="d-flex img-container">
-        <div *ngIf="user.profilePicture" class="text-center">
+        <div *ngIf="professional.appUser.profilePicture" class="text-center">
           <img
-            [src]="user.profilePicture"
+            [src]="professional.appUser.profilePicture"
             alt="Profile Picture"
             class="img-fluid"
           />
@@ -54,25 +54,40 @@
       class="col-10 col-md-4 mt-5 d-flex flex-column justify-content-start mx-auto"
     >
       <div *ngIf="!editingDetails">
-        <div class="d-flex flex-column justify-content-center mb-2">
+        <div
+          *ngIf="professional.appUser"
+          class="d-flex flex-column justify-content-center mb-2"
+        >
           <h6>NAME&nbsp;</h6>
-          <h6 class="fw-light">{{ user.name }}</h6>
+          <h6 class="fw-light">{{ professional.appUser.name }}</h6>
         </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
+        <div
+          *ngIf="professional.appUser"
+          class="d-flex flex-column justify-content-center mb-2"
+        >
           <h6>SURNAME&nbsp;</h6>
-          <h6 class="fw-light">{{ user.surname }}</h6>
+          <h6 class="fw-light">{{ professional.appUser.surname }}</h6>
         </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
+        <div
+          *ngIf="professional.appUser"
+          class="d-flex flex-column justify-content-center mb-2"
+        >
           <h6>E-MAIL&nbsp;</h6>
-          <h6 class="fw-light">{{ user.email }}</h6>
+          <h6 class="fw-light">{{ professional.appUser.email }}</h6>
         </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
+        <div
+          *ngIf="professional.appUser"
+          class="d-flex flex-column justify-content-center mb-2"
+        >
           <h6>DATE OF BIRTH&nbsp;</h6>
-          <h6 class="fw-light">{{ user.dateOfBirth }}</h6>
+          <h6 class="fw-light">{{ professional.appUser.dateOfBirth }}</h6>
         </div>
-        <div class="d-flex flex-column justify-content-center mb-2">
+        <div
+          *ngIf="professional.appUser"
+          class="d-flex flex-column justify-content-center mb-2"
+        >
           <h6>USERNAME&nbsp;</h6>
-          <h6 class="fw-light">{{ user.username }}</h6>
+          <h6 class="fw-light">{{ professional.appUser.username }}</h6>
         </div>
         <div *ngIf="checkOwnership()">
           <button (click)="editDetails()" class="custom-button border-blu">
@@ -161,8 +176,8 @@
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingEducationalPath">
         <h6>Educational Path</h6>
-        <div *ngIf="user.professional?.educationalPaths; else noEdu">
-          <div *ngFor="let edu of user.professional?.educationalPaths">
+        <div *ngIf="professional.educationalPaths; else noEdu">
+          <div *ngFor="let edu of professional.educationalPaths">
             <p>
               {{ edu.university?.name }} - {{ edu.faculty?.name }} -
               {{ edu.degreeCourse?.name }}
@@ -232,8 +247,8 @@
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingProfession">
         <h6>Profession</h6>
-        <p *ngIf="user.professional?.profession; else noProf">
-          {{ user.professional?.profession?.name }}
+        <p *ngIf="professional; else noProf">
+          {{ professional.profession.name }}
         </p>
         <ng-template #noProf>
           <p>No profession set.</p>
@@ -282,8 +297,8 @@
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingWrittenStory">
         <h6>Written Story</h6>
-        <p *ngIf="user.professional?.writtenStory; else noStory">
-          {{ user.professional?.writtenStory }}
+        <p *ngIf="professional?.writtenStory; else noStory">
+          {{ professional.writtenStory }}
         </p>
         <ng-template #noStory>
           <p>No written story added.</p>
@@ -325,9 +340,9 @@
     <div class="col-10 col-md-6 mx-auto">
       <div *ngIf="!editingVideo">
         <h6>Video Story</h6>
-        <div *ngIf="user.professional?.videoStory; else noVideo">
+        <div *ngIf="professional?.videoStory; else noVideo">
           <video controls>
-            <source [src]="user.professional?.videoStory" type="video/mp4" />
+            <source [src]="professional.videoStory" type="video/mp4" />
           </video>
         </div>
         <ng-template #noVideo>
@@ -351,52 +366,6 @@
             <span class="text-blu">Save Video</span>
           </button>
           <button (click)="cancelVideo()" class="custom-button border-blu">
-            <span class="text-blu">Cancel</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sezione Curriculum Vitae -->
-    <div class="col-10 col-md-6 mx-auto mt-4">
-      <div *ngIf="!editingCurriculum">
-        <h6>Curriculum Vitae</h6>
-        <div *ngIf="user.professional?.curriculumVitae; else noCV">
-          <!-- Pulsante per scaricare il PDF -->
-          <a
-            [href]="user.professional?.curriculumVitae"
-            target="_blank"
-            download
-            class="custom-button border-blu"
-          >
-            <span class="text-blu">Scarica CV</span>
-          </a>
-        </div>
-        <ng-template #noCV>
-          <p>No curriculum vitae added.</p>
-        </ng-template>
-        <div *ngIf="checkOwnership()" class="mt-2">
-          <button (click)="editCurriculum()" class="custom-button border-blu">
-            <span class="text-blu">Edit Curriculum</span>
-          </button>
-        </div>
-      </div>
-
-      <div *ngIf="editingCurriculum">
-        <input
-          type="file"
-          (change)="onCurriculumSelected($event)"
-          class="form-control mb-2"
-        />
-        <div *ngIf="fileName" class="mb-2">{{ fileName }}</div>
-        <div class="d-flex justify-content-center">
-          <button
-            (click)="saveCurriculum()"
-            class="custom-button border-blu me-2"
-          >
-            <span class="text-blu">Save Curriculum</span>
-          </button>
-          <button (click)="cancelCurriculum()" class="custom-button border-blu">
             <span class="text-blu">Cancel</span>
           </button>
         </div>

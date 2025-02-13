@@ -25,6 +25,7 @@ import { iProfessional } from '../../interfaces/i-professional';
 export class ProfessionalDashboardComponent implements OnInit {
   id!: number;
   user!: iUser;
+  professional!: iProfessional;
   isOwner: boolean = false;
 
   editingDetails: boolean = false;
@@ -86,7 +87,7 @@ export class ProfessionalDashboardComponent implements OnInit {
   getProfessional(): void {
     this.professionalService.getProfessionalById(this.id).subscribe({
       next: (professional) => {
-        this.user = professional.appUser;
+        this.professional = professional;
         this.checkOwnership();
       },
       error: (err) => console.error('Professional not found!', err),
@@ -95,7 +96,11 @@ export class ProfessionalDashboardComponent implements OnInit {
 
   checkOwnership(): boolean {
     this.authService.user$.subscribe((user) => {
-      if (user && user.professional && user.professional.id === this.user.id) {
+      if (
+        user &&
+        user.professional &&
+        user.professional.id === this.professional.id
+      ) {
         this.isOwner = true;
       }
     });
