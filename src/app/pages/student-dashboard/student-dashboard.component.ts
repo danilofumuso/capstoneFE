@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class StudentDashboardComponent implements OnInit {
   student!: iUser;
+
   sectorsOfInterest: iSector[] = [];
 
   sectorsList: iSector[] = [];
@@ -29,6 +30,9 @@ export class StudentDashboardComponent implements OnInit {
   sectorsOfInterestForm!: FormGroup;
   profilePicture?: File;
   fileName: string = '';
+
+  response: boolean = false;
+  toastMessage?: string;
 
   sectorsUrl: string = environment.sectorsUrl;
 
@@ -120,6 +124,14 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
+            //aggiorno il subject per avere i dati aggiornati live
+            const currentAuth = this.authService.authSubject$.getValue();
+            if (currentAuth) {
+              this.authService.authSubject$.next({
+                ...currentAuth,
+                user: updatedStudent.appUser,
+              });
+            }
           }
           this.editingPhoto = false;
           this.profilePicture = undefined;
@@ -141,6 +153,13 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
+            const currentAuth = this.authService.authSubject$.getValue();
+            if (currentAuth) {
+              this.authService.authSubject$.next({
+                ...currentAuth,
+                user: updatedStudent.appUser,
+              });
+            }
           }
           this.editingDetails = false;
           this.detailsForm.reset();
@@ -163,11 +182,18 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
+            const currentAuth = this.authService.authSubject$.getValue();
+            if (currentAuth) {
+              this.authService.authSubject$.next({
+                ...currentAuth,
+                user: updatedStudent.appUser,
+              });
+            }
+            if (updatedStudent?.sectorsOfInterest) {
+              this.sectorsOfInterest = updatedStudent.sectorsOfInterest;
+            }
           }
-          if (updatedStudent.appUser?.student?.sectorsOfInterest) {
-            this.sectorsOfInterest =
-              updatedStudent.appUser.student.sectorsOfInterest;
-          }
+
           this.editingSectorsOfInterest = false;
           this.selectedSectors = [];
           this.sectorsOfInterestForm.reset({ sectorsOfInterestId: [] });
@@ -182,5 +208,23 @@ export class StudentDashboardComponent implements OnInit {
     this.editingSectorsOfInterest = false;
     this.selectedSectors = [];
     this.sectorsOfInterestForm.reset({ sectorsOfInterestId: [] });
+  }
+
+  deleteStudent(): void {
+    this.studentService.deleteStudent().subscribe({
+      next: () => {
+        this.response = true;
+        this.toastMessage = 'Account deleted successfully!';
+        setTimeout(() => {
+          this.authService.logout();
+        }, 3000);
+      },
+      error: (err) => console.error('Error deleting student', err),
+    });
+  }
+
+  clearToast(): void {
+    this.toastMessage = '';
+    this.response = false;
   }
 }

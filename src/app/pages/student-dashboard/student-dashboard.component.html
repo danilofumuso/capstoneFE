@@ -159,19 +159,17 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-6 my-5 d-flex flex-column">
-      <div
-        *ngIf="!editingSectorsOfInterest"
-        class="d-flex flex-column align-items-center mb-3"
-      >
+
+  <div class="row my-5">
+    <div class="col-10 col-md-5 d-flex flex-column mx-auto">
+      <div *ngIf="!editingSectorsOfInterest" class="d-flex flex-column mb-3">
         <h6>SECTORS OF INTEREST &nbsp;</h6>
         <h6 class="fw-light" *ngFor="let interest of sectorsOfInterest">
           {{ interest.name }}&nbsp;
         </h6>
         <button
           (click)="editingSectorsOfInterest = true"
-          class="custom-button button-small border-blu"
+          class="custom-button button-small border-blu mt-2"
         >
           <span class="text-blu">Edit </span>
         </button>
@@ -180,9 +178,9 @@
         <form
           [formGroup]="sectorsOfInterestForm"
           (ngSubmit)="saveSectorsOfInterest()"
-          class="d-flex flex-column align-items-center"
+          class="d-flex flex-column"
         >
-          <div class="input-wrapper my-3">
+          <div class="input-wrapper">
             <select
               class="input-box bg-background"
               formControlName="sectorsOfInterestId"
@@ -224,6 +222,51 @@
           </div>
         </form>
       </div>
+    </div>
+    <div class="col-10 col-md-7 mt-3 mt-md-0 d-flex mx-auto">
+      <div class="mx-md-auto">
+        <button
+          type="button"
+          (click)="deleteStudent()"
+          class="custom-button button-large border-rosso"
+        >
+          <span class="text-rosso">Delete Account</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  *ngIf="toastMessage"
+  class="toast-container shadow-lg position-fixed top-0 end-0 m-3"
+>
+  <div
+    class="toast show rounded-0 border-0"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+  >
+    <div class="toast-header bg-background rounded-0 border-0">
+      @if (response) {
+      <strong class="me-auto">Account deleted!</strong>
+
+      }
+      <small class="text-dark">now</small>
+      <button
+        (click)="clearToast()"
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+
+    <div
+      [ngClass]="response ? 'bg-verde text-dark' : 'bg-rosso text-white'"
+      class="toast-body rounded-0 border-0"
+    >
+      {{ toastMessage }}
     </div>
   </div>
 </div>
