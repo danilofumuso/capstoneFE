@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <div *ngIf="!editingPhoto" class="col-12 mx-auto">
-      <div class="d-flex img-container">
-        <div class="text-center">
-          <img [src]="student.profilePicture" alt="Profile Picture" />
+    <div *ngIf="!editingPhoto" class="col-10 col-md-5 mx-auto mt-5 mt-md-0">
+      <div class="d-flex align-items-end internal-container">
+        <div class="mx-auto">
+          <img [src]="student.profilePicture" />
         </div>
         <div *ngIf="!editingPhoto">
           <button
@@ -15,12 +15,11 @@
         </div>
       </div>
     </div>
-
-    <div *ngIf="editingPhoto" class="col-10 col-md-4 mx-auto my-auto">
-      <div class="d-flex flex-column">
-        <div class="d-flex flex-column my-3 mx-auto">
+    <div *ngIf="editingPhoto" class="col-10 col-md-5 mx-auto mt-5 my-md-0">
+      <div class="d-flex flex-column internal-container justify-content-center">
+        <div class="d-flex flex-column align-items-center">
           <div class="d-flex align-items-center">
-            <label for="profilePicture" class="form-lable me-3"
+            <label for="profilePicture" class="form-lable me-2"
               >Profile Picture</label
             >
             <input
@@ -35,57 +34,55 @@
           </div>
           <span *ngIf="fileName">{{ fileName }}</span>
         </div>
-        <div class="d-flex mt-3 mx-auto">
-          <button (click)="savePhoto()" class="custom-button border-blu me-3">
-            <span class="text-blu">Save Photo</span>
+        <div class="d-flex mt-3 justify-content-center">
+          <button
+            (click)="savePhoto()"
+            class="custom-button button-small border-blu me-3"
+          >
+            <span class="text-blu">Save</span>
           </button>
-          <button (click)="cancelPhotoEdit()" class="custom-button border-blu">
+          <button
+            (click)="cancelPhotoEdit()"
+            class="custom-button button-small border-blu"
+          >
             <span class="text-blu">Cancel</span>
           </button>
         </div>
       </div>
     </div>
-  </div>
-  <div class="row">
+
     <div
-      class="col-10 col-md-8 col-lg-4 mt-5 d-flex flex-column justify-content-start mx-auto"
+      class="col-10 col-md-7 mt-5 mt-md-0 d-flex flex-column justify-content-center mx-auto"
     >
-      <div class="bg-blu rounded-0">
-        <div
-          *ngIf="!editingDetails"
-          class="bg-background rounded-4 border border-2 border-blu p-5"
-        >
-          <div class="d-flex flex-column justify-content-center mb-2">
-            <h6>NAME &nbsp;</h6>
-            <h6 class="fw-light">{{ student.name }}</h6>
-          </div>
-          <div class="d-flex flex-column justify-content-center mb-2">
-            <h6>SURNAME &nbsp;</h6>
-            <h6 class="fw-light">{{ student.surname }}</h6>
-          </div>
-          <div class="d-flex flex-column justify-content-center mb-2">
-            <h6>E-MAIL &nbsp;</h6>
-            <h6 class="fw-light">{{ student.email }}</h6>
-          </div>
-          <div class="d-flex flex-column justify-content-center mb-2">
-            <h6>DATE OF BIRTH &nbsp;</h6>
-            <h6 class="fw-light">{{ student.dateOfBirth }}</h6>
-          </div>
-          <div class="d-flex flex-column justify-content-center mb-2">
-            <h6>USERNAME &nbsp;</h6>
-            <h6 class="fw-light">{{ student.username }}</h6>
-          </div>
-
-          <button
-            (click)="editingDetails = true"
-            class="custom-button border-blu"
-          >
-            <span class="text-blu">Edit</span>
-          </button>
+      <div *ngIf="!editingDetails" class="mx-md-auto">
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>NAME &nbsp;</h6>
+          <h6 class="fw-light">{{ student.name }}</h6>
         </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>SURNAME &nbsp;</h6>
+          <h6 class="fw-light">{{ student.surname }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>E-MAIL &nbsp;</h6>
+          <h6 class="fw-light">{{ student.email }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>DATE OF BIRTH &nbsp;</h6>
+          <h6 class="fw-light">{{ student.dateOfBirth }}</h6>
+        </div>
+        <div class="d-flex flex-column justify-content-center mb-2">
+          <h6>USERNAME &nbsp;</h6>
+          <h6 class="fw-light">{{ student.username }}</h6>
+        </div>
+        <button
+          (click)="editingDetails = true"
+          class="custom-button button-small border-blu"
+        >
+          <span class="text-blu">Edit</span>
+        </button>
       </div>
-
-      <div *ngIf="editingDetails">
+      <div *ngIf="editingDetails" class="mx-auto">
         <form [formGroup]="detailsForm" (ngSubmit)="saveDetails()">
           <div class="input-wrapper mb-3">
             <input
@@ -144,41 +141,51 @@
             />
           </div>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="custom-button border-blu me-2">
+            <button
+              type="submit"
+              class="custom-button button-small border-blu me-2"
+            >
               <span class="text-blu">Save</span>
             </button>
             <button
               type="button"
               (click)="cancelDetailsEdit()"
-              class="custom-button border-blu"
+              class="custom-button button-small border-blu"
             >
               <span class="text-blu">Cancel</span>
             </button>
           </div>
         </form>
       </div>
-      <div *ngIf="!editingSectorsOfInterest" class="d-flex flex-column mb-3">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 my-5 d-flex flex-column">
+      <div
+        *ngIf="!editingSectorsOfInterest"
+        class="d-flex flex-column align-items-center mb-3"
+      >
         <h6>SECTORS OF INTEREST &nbsp;</h6>
         <h6 class="fw-light" *ngFor="let interest of sectorsOfInterest">
           {{ interest.name }}&nbsp;
         </h6>
-
         <button
           (click)="editingSectorsOfInterest = true"
-          class="custom-button border-blu"
+          class="custom-button button-small border-blu"
         >
           <span class="text-blu">Edit </span>
         </button>
       </div>
-
       <div *ngIf="editingSectorsOfInterest">
         <form
           [formGroup]="sectorsOfInterestForm"
           (ngSubmit)="saveSectorsOfInterest()"
+          class="d-flex flex-column align-items-center"
         >
-          <div class="input-wrapper mb-3">
+          <div class="input-wrapper my-3">
             <select
               class="input-box bg-background"
+              formControlName="sectorsOfInterestId"
               (change)="onSectorSelected($event)"
             >
               <option value="">Select Your Interests</option>
@@ -186,27 +193,31 @@
                 {{ sector.name }}
               </option>
             </select>
+
+            <div class="my-2 d-flex justify-content-center flex-wrap">
+              <ng-container *ngFor="let sectorId of selectedSectors">
+                <span class="badge text-blu bg-verde me-2 mt-2 pb-2">
+                  {{ getSectorNameById(sectorId) }}
+                  <button
+                    type="button"
+                    class="btn-close btn-close-dark btn-sm ms-1"
+                    (click)="removeSector(sectorId)"
+                  ></button>
+                </span>
+              </ng-container>
+            </div>
           </div>
-          <div class="my-2 d-flex justify-content-center flex-wrap">
-            <ng-container *ngFor="let sectorId of selectedSectors">
-              <span class="badge text-blu bg-verde me-2 mt-2 pb-2">
-                {{ getSectorNameById(sectorId) }}
-                <button
-                  type="button"
-                  class="btn-close btn-close-dark btn-sm ms-1"
-                  (click)="removeSector(sectorId)"
-                ></button>
-              </span>
-            </ng-container>
-          </div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="custom-button border-blu me-2">
-              <span class="text-blu">Save Interests</span>
+          <div class="d-flex">
+            <button
+              type="submit"
+              class="custom-button button-small border-blu me-2"
+            >
+              <span class="text-blu">Save</span>
             </button>
             <button
               type="button"
               (click)="cancelSectorsEdit()"
-              class="custom-button border-blu"
+              class="custom-button button-small border-blu"
             >
               <span class="text-blu">Cancel</span>
             </button>

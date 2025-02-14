@@ -4,7 +4,7 @@
     <!-- Colonna Foto -->
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingPhoto" class="d-flex img-container">
-        <div *ngIf="professional.appUser.profilePicture" class="text-center">
+        <div *ngIf="professional?.appUser" class="text-center">
           <img
             [src]="professional.appUser.profilePicture"
             alt="Profile Picture"
@@ -55,35 +55,35 @@
     >
       <div *ngIf="!editingDetails">
         <div
-          *ngIf="professional.appUser"
+          *ngIf="professional?.appUser"
           class="d-flex flex-column justify-content-center mb-2"
         >
           <h6>NAME&nbsp;</h6>
           <h6 class="fw-light">{{ professional.appUser.name }}</h6>
         </div>
         <div
-          *ngIf="professional.appUser"
+          *ngIf="professional?.appUser"
           class="d-flex flex-column justify-content-center mb-2"
         >
           <h6>SURNAME&nbsp;</h6>
           <h6 class="fw-light">{{ professional.appUser.surname }}</h6>
         </div>
         <div
-          *ngIf="professional.appUser"
+          *ngIf="professional?.appUser"
           class="d-flex flex-column justify-content-center mb-2"
         >
           <h6>E-MAIL&nbsp;</h6>
           <h6 class="fw-light">{{ professional.appUser.email }}</h6>
         </div>
         <div
-          *ngIf="professional.appUser"
+          *ngIf="professional?.appUser"
           class="d-flex flex-column justify-content-center mb-2"
         >
           <h6>DATE OF BIRTH&nbsp;</h6>
           <h6 class="fw-light">{{ professional.appUser.dateOfBirth }}</h6>
         </div>
         <div
-          *ngIf="professional.appUser"
+          *ngIf="professional?.appUser"
           class="d-flex flex-column justify-content-center mb-2"
         >
           <h6>USERNAME&nbsp;</h6>
@@ -176,7 +176,7 @@
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingEducationalPath">
         <h6>Educational Path</h6>
-        <div *ngIf="professional.educationalPaths; else noEdu">
+        <div *ngIf="professional?.educationalPaths; else noEdu">
           <div *ngFor="let edu of professional.educationalPaths">
             <p>
               {{ edu.university?.name }} - {{ edu.faculty?.name }} -

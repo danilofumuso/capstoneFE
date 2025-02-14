@@ -72,6 +72,9 @@ export class ProfessionalDashboardComponent implements OnInit {
       this.authService.user$.subscribe((user) => {
         if (user) {
           this.user = user;
+          if (user.professional) {
+            this.professional = user.professional;
+          }
         }
       });
     } else {
