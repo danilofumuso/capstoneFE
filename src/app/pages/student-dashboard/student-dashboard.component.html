@@ -36,10 +36,23 @@
         </div>
         <div class="d-flex mt-3 justify-content-center">
           <button
-            (click)="savePhoto()"
-            class="custom-button button-small border-blu me-3"
+            (click)="handleProfilePicture()"
+            [ngClass]="{
+              'custom-button': true,
+              'button-small': true,
+              'border-blu': profilePicture,
+              'border-rosso': !profilePicture,
+              'me-3': true
+            }"
           >
-            <span class="text-blu">Save</span>
+            <span
+              [ngClass]="{
+                'text-blu': profilePicture,
+                'text-rosso': !profilePicture
+              }"
+            >
+              {{ profilePicture ? "Save" : "Delete" }}
+            </span>
           </button>
           <button
             (click)="cancelPhotoEdit()"

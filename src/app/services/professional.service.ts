@@ -91,7 +91,9 @@ export class ProfessionalService {
     );
   }
 
-  updateProfilePicture(profilePicture?: File): Observable<iProfessional> {
+  updateProfilePicture(
+    profilePicture?: File | null
+  ): Observable<iProfessional> {
     const formData = new FormData();
     if (profilePicture) {
       formData.append('profilePicture', profilePicture);
@@ -111,7 +113,7 @@ export class ProfessionalService {
     );
   }
 
-  updateVideoStory(videoStory?: File): Observable<iProfessional> {
+  updateVideoStory(videoStory?: File | null): Observable<iProfessional> {
     const formData = new FormData();
     if (videoStory) {
       formData.append('videoStory', videoStory);
@@ -122,7 +124,9 @@ export class ProfessionalService {
     );
   }
 
-  updateCurriculumVitae(curriculumVitae?: File): Observable<iProfessional> {
+  updateCurriculumVitae(
+    curriculumVitae?: File | null
+  ): Observable<iProfessional> {
     const formData = new FormData();
     if (curriculumVitae) {
       formData.append('curriculumVitae', curriculumVitae);

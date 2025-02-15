@@ -26,7 +26,7 @@ export class StudentService {
     return this.http.patch<iStudent>(this.studentSectorsOfInterestUrl, sectors);
   }
 
-  updateProfilePicture(profilePicture?: File): Observable<iStudent> {
+  updateProfilePicture(profilePicture?: File | null): Observable<iStudent> {
     const formData = new FormData();
     if (profilePicture) {
       formData.append('profilePicture', profilePicture);

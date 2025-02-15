@@ -10,7 +10,7 @@
     <div class="card-details mt-3">
       {{ professional.appUser.name }} {{ professional.appUser.surname }}
       <br />
-      <span class="">{{ professional.profession.name }} </span>
+      <span class="">{{ professional.profession?.name }} </span>
     </div>
     <button
       (click)="goToProfessionalPage(professional.appUser.id)"

@@ -28,7 +28,7 @@ export class StudentDashboardComponent implements OnInit {
 
   detailsForm!: FormGroup;
   sectorsOfInterestForm!: FormGroup;
-  profilePicture?: File;
+  profilePicture?: File | null;
   fileName: string = '';
 
   response: boolean = false;
@@ -141,9 +141,33 @@ export class StudentDashboardComponent implements OnInit {
     }
   }
 
+  deleteProfilePicture(): void {
+    this.studentService.updateProfilePicture(null).subscribe({
+      next: (updated) => {
+        if (updated.appUser) {
+          this.student = updated.appUser;
+        }
+        this.profilePicture = null;
+        this.fileName = '';
+        this.editingPhoto = false;
+        console.log('Profile picture removed:', updated);
+      },
+      error: (err) => console.error('Error deleting profile picture', err),
+    });
+  }
+
+  handleProfilePicture(): void {
+    if (this.profilePicture) {
+      this.savePhoto();
+    } else {
+      this.deleteProfilePicture();
+    }
+  }
+
   cancelPhotoEdit(): void {
     this.editingPhoto = false;
-    this.profilePicture = undefined;
+    this.fileName = '';
+    this.profilePicture = null;
   }
 
   saveDetails(): void {

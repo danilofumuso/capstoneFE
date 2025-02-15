@@ -26,7 +26,9 @@ export class ProfessionalDashboardComponent implements OnInit {
   id!: number;
   user!: iUser;
   professional!: iProfessional;
-  isOwner: boolean = false;
+
+  response: boolean = false;
+  toastMessage?: string;
 
   editingDetails: boolean = false;
   editingPhoto: boolean = false;
@@ -41,10 +43,10 @@ export class ProfessionalDashboardComponent implements OnInit {
   professionForm!: FormGroup;
   writtenStoryForm!: FormGroup;
 
-  profilePicture?: File;
+  profilePicture: File | null = null;
   fileName: string = '';
-  videoFile?: File;
-  curriculumFile?: File;
+  videoFile?: File | null = null;
+  curriculumFile?: File | null = null;
 
   universities: iUniversity[] = [];
   faculties: iFaculty[] = [];
@@ -57,6 +59,7 @@ export class ProfessionalDashboardComponent implements OnInit {
   degreeCoursesByFaculty: string = environment.degreeCoursesByFaculty;
   sectorsUrl: string = environment.sectorsUrl;
   professionsBySectorUrl: string = environment.professionsBySectorUrl;
+  educationalPathsUrl: string = environment.educationalPathsUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -67,47 +70,61 @@ export class ProfessionalDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    if (!idParam) {
-      this.authService.user$.subscribe((user) => {
-        if (user) {
-          this.user = user;
-          if (user.professional) {
-            this.professional = user.professional;
-          }
+    // Sottoscriviti sempre al subject per avere i dati aggiornati
+    this.authService.user$.subscribe((user) => {
+      if (user) {
+        this.user = user;
+        if (user.professional) {
+          this.professional = user.professional;
         }
-      });
-    } else {
+      }
+    });
+
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
       this.id = parseInt(idParam);
       this.getProfessional();
     }
-
+    // Inizializza i form e carica le liste necessarie
     this.initForms();
     this.loadUniversities();
     this.loadSectors();
+  }
+
+  private updateAuthData(newProfessional: iProfessional): void {
+    const currentAuth = this.authService.authSubject$.getValue();
+    if (currentAuth && currentAuth.user) {
+      const newAuth = {
+        ...currentAuth,
+        user: {
+          ...currentAuth.user,
+          professional: newProfessional,
+        },
+      };
+      this.authService.authSubject$.next(newAuth);
+      localStorage.setItem('accessData', JSON.stringify(newAuth));
+    }
   }
 
   getProfessional(): void {
     this.professionalService.getProfessionalById(this.id).subscribe({
       next: (professional) => {
         this.professional = professional;
-        this.checkOwnership();
+
+        if (this.user?.professional?.id === professional.id) {
+          this.updateAuthData(professional);
+        }
       },
       error: (err) => console.error('Professional not found!', err),
     });
   }
 
-  checkOwnership(): boolean {
-    this.authService.user$.subscribe((user) => {
-      if (
-        user &&
-        user.professional &&
-        user.professional.id === this.professional.id
-      ) {
-        this.isOwner = true;
-      }
-    });
-    return this.isOwner;
+  get isOwner(): boolean {
+    return (
+      this.user &&
+      this.professional &&
+      this.user.professional?.id === this.professional.id
+    );
   }
 
   initForms(): void {
@@ -255,7 +272,11 @@ export class ProfessionalDashboardComponent implements OnInit {
       this.professionalService.updateProfessional(professionalDTO).subscribe({
         next: (updated) => {
           if (updated.appUser) {
+            // Aggiorna user e professional
             this.user = updated.appUser;
+            this.professional = updated;
+            // Sincronizza i dati nel subject e nel localStorage
+            this.updateAuthData(updated);
           }
           this.editingDetails = false;
         },
@@ -281,13 +302,15 @@ export class ProfessionalDashboardComponent implements OnInit {
   }
 
   savePhoto(): void {
-    if (this.profilePicture) {
+    if (this.profilePicture !== null) {
       this.professionalService
         .updateProfilePicture(this.profilePicture)
         .subscribe({
           next: (updated) => {
             if (updated.appUser) {
               this.user = updated.appUser;
+              this.professional = updated;
+              this.updateAuthData(updated);
             }
             this.editingPhoto = false;
           },
@@ -296,8 +319,38 @@ export class ProfessionalDashboardComponent implements OnInit {
     }
   }
 
+  deleteProfilePicture(): void {
+    // Invia null al backend per eliminare la foto
+    this.professionalService.updateProfilePicture(null).subscribe({
+      next: (updated) => {
+        if (updated.appUser) {
+          this.user = updated.appUser;
+          this.professional = updated;
+          this.updateAuthData(updated);
+        }
+        this.profilePicture = null;
+        this.fileName = '';
+        this.editingPhoto = false;
+        console.log('Profile picture removed:', updated);
+      },
+      error: (err) => console.error('Error deleting profile picture', err),
+    });
+  }
+
+  handleProfilePicture(): void {
+    if (this.profilePicture) {
+      // Se è stato selezionato un file, salviamo la nuova foto
+      this.savePhoto();
+    } else {
+      // Altrimenti, eliminiamo la foto (inviando null al backend)
+      this.deleteProfilePicture();
+    }
+  }
+
   cancelPhotoEdit(): void {
     this.editingPhoto = false;
+    this.fileName = '';
+    this.profilePicture = null;
   }
 
   addEducationalPath(): void {
@@ -314,6 +367,8 @@ export class ProfessionalDashboardComponent implements OnInit {
           next: (updated) => {
             if (updated.appUser) {
               this.user = updated.appUser;
+              this.professional = updated;
+              this.updateAuthData(updated);
             }
             this.editingEducationalPath = false;
             this.educationalPathForm.reset();
@@ -321,6 +376,22 @@ export class ProfessionalDashboardComponent implements OnInit {
           error: (err) => console.error('Error updating educational path', err),
         });
     }
+  }
+
+  deleteEducationalPath(pathId: number): void {
+    this.http.delete(`${this.educationalPathsUrl}/${pathId}`).subscribe({
+      next: (response) => {
+        if (this.professional && this.professional.educationalPaths) {
+          this.professional.educationalPaths =
+            this.professional.educationalPaths.filter(
+              (edu) => edu.id !== pathId
+            );
+        }
+        this.updateAuthData(this.professional);
+        console.log('Educational Path removed:', response);
+      },
+      error: (err) => console.error('Error deleting educational path', err),
+    });
   }
 
   cancelEducationalPath(): void {
@@ -339,6 +410,8 @@ export class ProfessionalDashboardComponent implements OnInit {
         next: (updated) => {
           if (updated.appUser) {
             this.user = updated.appUser;
+            this.professional = updated;
+            this.updateAuthData(updated);
           }
           this.editingProfession = false;
           this.professionForm.reset();
@@ -365,6 +438,8 @@ export class ProfessionalDashboardComponent implements OnInit {
         next: (updated) => {
           if (updated.appUser) {
             this.user = updated.appUser;
+            this.professional = updated;
+            this.updateAuthData(updated);
           }
           this.editingWrittenStory = false;
           this.writtenStoryForm.reset();
@@ -392,11 +467,13 @@ export class ProfessionalDashboardComponent implements OnInit {
   }
 
   saveVideo(): void {
-    if (this.videoFile) {
+    if (this.videoFile !== null) {
       this.professionalService.updateVideoStory(this.videoFile).subscribe({
         next: (updated) => {
           if (updated.appUser) {
             this.user = updated.appUser;
+            this.professional = updated;
+            this.updateAuthData(updated);
           }
           this.editingVideo = false;
         },
@@ -405,8 +482,35 @@ export class ProfessionalDashboardComponent implements OnInit {
     }
   }
 
+  deleteVideo(): void {
+    this.professionalService.updateVideoStory(null).subscribe({
+      next: (updated) => {
+        if (updated.appUser) {
+          this.user = updated.appUser;
+          this.professional = updated;
+          this.updateAuthData(updated);
+        }
+        this.videoFile = null;
+        this.fileName = '';
+        this.editingVideo = false;
+        console.log('Profile picture removed:', updated);
+      },
+      error: (err) => console.error('Error deleting profile picture', err),
+    });
+  }
+
+  handleVideo(): void {
+    if (this.videoFile) {
+      this.saveVideo();
+    } else {
+      this.deleteVideo();
+    }
+  }
+
   cancelVideo(): void {
     this.editingVideo = false;
+    this.fileName = '';
+    this.videoFile = null;
   }
 
   editCurriculum(): void {
@@ -429,6 +533,8 @@ export class ProfessionalDashboardComponent implements OnInit {
           next: (updated) => {
             if (updated.appUser) {
               this.user = updated.appUser;
+              this.professional = updated;
+              this.updateAuthData(updated);
             }
             this.editingCurriculum = false;
           },
@@ -439,5 +545,24 @@ export class ProfessionalDashboardComponent implements OnInit {
 
   cancelCurriculum(): void {
     this.editingCurriculum = false;
+  }
+
+  deleteProfessional(): void {
+    this.professionalService.deleteProfessional().subscribe({
+      next: () => {
+        this.response = true;
+        this.toastMessage = 'Account deleted successfully!';
+        setTimeout(() => {
+          this.authService.logout();
+        }, 3000);
+        this.authService.logout();
+      },
+      error: (err) => console.error('Error deleting professional', err),
+    });
+  }
+
+  clearToast(): void {
+    this.toastMessage = '';
+    this.response = false;
   }
 }
