@@ -110,15 +110,7 @@
             {{ professional?.appUser?.dateOfBirth || user?.dateOfBirth }}
           </h6>
         </div>
-        <div
-          *ngIf="professional || user"
-          class="d-flex flex-column justify-content-center mb-2"
-        >
-          <h6>USERNAME&nbsp;</h6>
-          <h6 class="fw-light">
-            {{ professional?.appUser?.username || user?.username }}
-          </h6>
-        </div>
+
         <div *ngIf="isOwner">
           <button (click)="editDetails()" class="custom-button border-blu">
             <span class="text-blu">Edit Details</span>
