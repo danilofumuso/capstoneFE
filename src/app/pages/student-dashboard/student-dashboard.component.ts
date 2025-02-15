@@ -8,6 +8,7 @@ import { iStudentSectorsOfInterestDTO } from '../../interfaces/i-student-sectors
 import { StudentService } from '../../services/student.service';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { iStudent } from '../../interfaces/i-student';
 
 @Component({
   selector: 'app-student-dashboard',
@@ -57,6 +58,21 @@ export class StudentDashboardComponent implements OnInit {
     });
     this.loadSectors();
     this.initForms();
+  }
+
+  private updateAuthData(newUser: iUser, newStudent: iStudent): void {
+    const currentAuth = this.authService.authSubject$.getValue();
+    if (currentAuth) {
+      const newAuth = {
+        ...currentAuth,
+        user: {
+          ...newUser,
+          student: newStudent,
+        },
+      };
+      this.authService.authSubject$.next(newAuth);
+      localStorage.setItem('accessData', JSON.stringify(newAuth));
+    }
   }
 
   initForms(): void {
@@ -124,17 +140,9 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
-            //aggiorno il subject per avere i dati aggiornati live
-            const currentAuth = this.authService.authSubject$.getValue();
-            if (currentAuth) {
-              this.authService.authSubject$.next({
-                ...currentAuth,
-                user: updatedStudent.appUser,
-              });
-            }
+            this.updateAuthData(updatedStudent.appUser, updatedStudent);
           }
           this.editingPhoto = false;
-          this.profilePicture = undefined;
         },
         error: (err) => console.error('Error updating profile picture', err),
       });
@@ -143,14 +151,14 @@ export class StudentDashboardComponent implements OnInit {
 
   deleteProfilePicture(): void {
     this.studentService.updateProfilePicture(null).subscribe({
-      next: (updated) => {
-        if (updated.appUser) {
-          this.student = updated.appUser;
+      next: (updatedStudent) => {
+        if (updatedStudent.appUser) {
+          this.student = updatedStudent.appUser;
+          this.updateAuthData(updatedStudent.appUser, updatedStudent);
         }
         this.profilePicture = null;
         this.fileName = '';
         this.editingPhoto = false;
-        console.log('Profile picture removed:', updated);
       },
       error: (err) => console.error('Error deleting profile picture', err),
     });
@@ -177,13 +185,7 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
-            const currentAuth = this.authService.authSubject$.getValue();
-            if (currentAuth) {
-              this.authService.authSubject$.next({
-                ...currentAuth,
-                user: updatedStudent.appUser,
-              });
-            }
+            this.updateAuthData(updatedStudent.appUser, updatedStudent);
           }
           this.editingDetails = false;
           this.detailsForm.reset();
@@ -206,16 +208,7 @@ export class StudentDashboardComponent implements OnInit {
         next: (updatedStudent) => {
           if (updatedStudent.appUser) {
             this.student = updatedStudent.appUser;
-            const currentAuth = this.authService.authSubject$.getValue();
-            if (currentAuth) {
-              this.authService.authSubject$.next({
-                ...currentAuth,
-                user: updatedStudent.appUser,
-              });
-            }
-            if (updatedStudent?.sectorsOfInterest) {
-              this.sectorsOfInterest = updatedStudent.sectorsOfInterest;
-            }
+            this.updateAuthData(updatedStudent.appUser, updatedStudent);
           }
 
           this.editingSectorsOfInterest = false;
