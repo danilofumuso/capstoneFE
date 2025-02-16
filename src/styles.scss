@@ -6,7 +6,7 @@ $custom-colors: (
   "blu": #03293a,
   "verde": #a9edc4,
   "rosso": #e34444,
-  "secondarybg": #ece0d5,
+  "secondarybg": #f3ebe2,
 );
 
 $theme-colors: map-merge($theme-colors, $custom-colors);
