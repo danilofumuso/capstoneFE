@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class CardComponent {
   @Input() professional!: iProfessional;
-  @Input() favourite!: iFavourite;
 
   constructor(private router: Router) {}
 

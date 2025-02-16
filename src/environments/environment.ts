@@ -11,7 +11,6 @@ export const environment = {
   educationalPathsUrl: 'http://localhost:8080/api/educationalPaths',
 
   favouritesUrl: 'http://localhost:8080/api/favourites',
-
   facultiesUrl: 'http://localhost:8080/api/faculties',
   facultiesByUniversityUrl: 'http://localhost:8080/api/faculties/byUniversity',
 

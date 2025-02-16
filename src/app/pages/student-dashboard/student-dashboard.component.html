@@ -170,8 +170,8 @@
     </div>
   </div>
 
-  <div class="row my-5">
-    <div class="col-10 col-md-5 d-flex flex-column mx-auto">
+  <div class="row second-row">
+    <div class="col-10 col-md-5 d-flex flex-column mx-auto mt-5 mt-md-0">
       <div *ngIf="!editingSectorsOfInterest" class="d-flex flex-column mb-3">
         <h6>SECTORS OF INTEREST &nbsp;</h6>
         <h6 class="fw-light" *ngFor="let interest of sectorsOfInterest">
@@ -190,7 +190,7 @@
           (ngSubmit)="saveSectorsOfInterest()"
           class="d-flex flex-column"
         >
-          <div class="input-wrapper">
+          <div class="input-wrapper mx-auto">
             <select
               class="input-box bg-background"
               formControlName="sectorsOfInterestId"
@@ -215,7 +215,7 @@
               </ng-container>
             </div>
           </div>
-          <div class="d-flex">
+          <div class="d-flex mx-auto">
             <button
               type="submit"
               class="custom-button button-small border-blu me-2"
@@ -233,7 +233,7 @@
         </form>
       </div>
     </div>
-    <div class="col-10 col-md-7 mt-3 mt-md-0 d-flex mx-auto">
+    <div class="col-10 col-md-7 mt-3 mt-md-0 d-flex mx-auto mb-5 mb-md-0">
       <div class="mx-md-auto">
         <button
           type="button"
@@ -242,6 +242,12 @@
         >
           <span class="text-rosso">Delete Account</span>
         </button>
+        <div>
+          <small
+            ><small class="text-rosso">PLEASE NOTE: </small> All your data will
+            be deleted</small
+          >
+        </div>
       </div>
     </div>
   </div>

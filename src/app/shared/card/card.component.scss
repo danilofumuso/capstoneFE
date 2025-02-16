@@ -1,8 +1,8 @@
 .card {
-  background-color: #ece0d5;
+  background-color: #f3ebe2;
   width: 220px;
   height: 300px;
-  background: #ece0d5;
+  background: #f3ebe2;
   border: 2px solid #03293a;
   box-shadow: 4px 4px #03293a;
   border-radius: 2px;
@@ -47,5 +47,6 @@
 .custom-button,
 .custom-button::before,
 .custom-button::after {
-  background: #ece0d5;
+  background: #f3ebe2;
+  border-color: #03293a;
 }

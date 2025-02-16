@@ -1,17 +1,31 @@
 <div class="container">
-  <!-- RIGA 1: Foto e Dettagli Personali -->
   <div class="row">
-    <!-- Colonna Foto -->
+    <button
+      (click)="toggleFavourite()"
+      [ngClass]="{
+        'custom-button': true,
+        'button-large': isFavourite,
+        'border-blu': !isFavourite,
+        'border-rosso': isFavourite,
+        'me-3': true
+      }"
+    >
+      <span
+        [ngClass]="{
+          'text-blu': !isFavourite,
+          'text-rosso': isFavourite
+        }"
+      >
+        {{ isFavourite ? "Remove Fav" : "Add Fav" }}
+      </span>
+    </button>
     <div class="col-10 col-md-4 mx-auto">
       <div *ngIf="!editingPhoto" class="d-flex img-container">
-        <!-- prettier-ignore -->
-        <div
-          *ngIf="professional || user"
-          class="text-center"
-        >
+        <div *ngIf="professional || user" class="text-center">
           <img
-          [src]="professional?.appUser?.profilePicture || user?.profilePicture"
-
+            [src]="
+              professional?.appUser?.profilePicture || user?.profilePicture
+            "
             class="img-fluid"
           />
         </div>
@@ -451,7 +465,7 @@
   >
     <div class="toast-header bg-background rounded-0 border-0">
       @if (response) {
-      <strong class="me-auto">Account deleted!</strong>
+      <strong class="me-auto">Notification!</strong>
 
       }
       <small class="text-dark">now</small>

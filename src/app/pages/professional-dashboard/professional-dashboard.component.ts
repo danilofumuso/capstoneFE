@@ -16,6 +16,9 @@ import { iUser } from '../../interfaces/i-user';
 import { iProfessionDTO } from '../../interfaces/i-profession-dto';
 import { iEducationalPathDTO } from '../../interfaces/i-educational-path-dto';
 import { iProfessional } from '../../interfaces/i-professional';
+import { FavouriteService } from '../../services/favourite.service';
+import { iPage } from '../../interfaces/i-page';
+import { iFavourite } from '../../interfaces/i-favourite';
 
 @Component({
   selector: 'app-professional-dashboard',
@@ -26,6 +29,9 @@ export class ProfessionalDashboardComponent implements OnInit {
   id!: number;
   user!: iUser;
   professional!: iProfessional;
+
+  isFavourite: boolean = false;
+  favouriteId: number | null = null;
 
   response: boolean = false;
   toastMessage?: string;
@@ -64,13 +70,13 @@ export class ProfessionalDashboardComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private professionalService: ProfessionalService,
+    private favouriteService: FavouriteService,
     private authService: AuthService,
     private fb: FormBuilder,
     private http: HttpClient
   ) {}
 
   ngOnInit(): void {
-    // Sottoscriviti sempre al subject per avere i dati aggiornati
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.user = user;
@@ -85,7 +91,7 @@ export class ProfessionalDashboardComponent implements OnInit {
       this.id = parseInt(idParam);
       this.getProfessional();
     }
-    // Inizializza i form e carica le liste necessarie
+
     this.initForms();
     this.loadUniversities();
     this.loadSectors();
@@ -114,6 +120,7 @@ export class ProfessionalDashboardComponent implements OnInit {
         if (this.user?.professional?.id === professional.id) {
           this.updateAuthData(professional);
         }
+        this.checkFavouriteStatus();
       },
       error: (err) => console.error('Professional not found!', err),
     });
@@ -125,6 +132,52 @@ export class ProfessionalDashboardComponent implements OnInit {
       this.professional &&
       this.user.professional?.id === this.professional.id
     );
+  }
+
+  checkFavouriteStatus(): void {
+    this.favouriteService.getFavourites().subscribe({
+      next: (page: iPage) => {
+        const favourites = page.content as iFavourite[];
+        const foundFavourite = favourites.find(
+          (fav) =>
+            fav.professional && fav.professional.id === this.professional.id
+        );
+        if (foundFavourite) {
+          this.isFavourite = true;
+          this.favouriteId = foundFavourite.id || null;
+        } else {
+          this.isFavourite = false;
+          this.favouriteId = null;
+        }
+      },
+      error: (err) => console.error('Errore nel recuperare i preferiti', err),
+    });
+  }
+
+  toggleFavourite(): void {
+    if (this.isFavourite && this.favouriteId) {
+      this.favouriteService.removeFavourite(this.favouriteId).subscribe({
+        next: () => {
+          this.isFavourite = false;
+          this.favouriteId = null;
+          this.response = true;
+          this.toastMessage = 'Professional removed from favourite!';
+        },
+        error: (err) =>
+          console.error('Errore nella rimozione dai preferiti', err),
+      });
+    } else {
+      if (!this.professional.id) return;
+      this.favouriteService.addFavourite(this.professional.id).subscribe({
+        next: (fav: iFavourite) => {
+          this.isFavourite = true;
+          this.favouriteId = fav.id || null;
+          this.response = true;
+          this.toastMessage = 'Professional added to favourite!';
+        },
+        error: (err) => console.error("Errore nell'aggiunta ai preferiti", err),
+      });
+    }
   }
 
   initForms(): void {
@@ -555,7 +608,6 @@ export class ProfessionalDashboardComponent implements OnInit {
         setTimeout(() => {
           this.authService.logout();
         }, 3000);
-        this.authService.logout();
       },
       error: (err) => console.error('Error deleting professional', err),
     });

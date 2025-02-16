@@ -18,6 +18,12 @@
       right: 0px;
     }
   }
+
+  .second-row {
+    height: 100%;
+    min-height: 40vh;
+    align-items: center;
+  }
 }
 
 @media (max-width: 996px) {
