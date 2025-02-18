@@ -156,7 +156,8 @@ small {
   display: none;
 }
 
-input::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: #000000;
   font-size: $font-size-base;
 }

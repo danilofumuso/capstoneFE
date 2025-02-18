@@ -449,7 +449,6 @@ export class ProfessionalDashboardComponent implements OnInit {
 
   cancelEducationalPath(): void {
     this.editingEducationalPath = false;
-    this.educationalPathForm.reset();
   }
 
   editProfession(): void {
@@ -476,7 +475,6 @@ export class ProfessionalDashboardComponent implements OnInit {
 
   cancelProfession(): void {
     this.editingProfession = false;
-    this.professionForm.reset();
   }
 
   editWrittenStory(): void {

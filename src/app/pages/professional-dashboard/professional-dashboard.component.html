@@ -1,25 +1,35 @@
 <div class="container">
-  <div class="row mt-5 align-items-start">
-    <div class="col-10 col-md-4 mx-auto">
-      <div *ngIf="!editingPhoto" class="d-flex img-container">
-        <div *ngIf="professional || user" class="text-center">
-          <img
-            [src]="
-              professional?.appUser?.profilePicture || user?.profilePicture
-            "
-            class="img-fluid"
-          />
-        </div>
-        <div *ngIf="isOwner">
-          <button
-            class="border-0 bg-background rounded-0"
-            (click)="editPhoto()"
-          >
-            <i class="bi bi-file-image text-blu"></i>
-          </button>
+  <div class="row align-items-start">
+    <div class="col-10 col-md-5 mx-auto mt-5 mt-md-0 order-1 order-md-0">
+      <div
+        *ngIf="!editingPhoto"
+        class="d-flex img-container justify-content-center justify-content-md-start"
+      >
+        <div
+          *ngIf="professional || user"
+          class="d-flex align-items-end internal-container"
+        >
+          <div>
+            <img
+              [src]="
+                professional?.appUser?.profilePicture || user?.profilePicture
+              "
+            />
+          </div>
+          <div *ngIf="isOwner">
+            <button
+              class="border-0 bg-background rounded-0"
+              (click)="editPhoto()"
+            >
+              <i class="bi bi-file-image text-blu"></i>
+            </button>
+          </div>
         </div>
       </div>
-      <div *ngIf="editingPhoto" class="d-flex flex-column my-auto">
+      <div
+        *ngIf="editingPhoto"
+        class="d-flex flex-column my-auto internal-container justify-content-center"
+      >
         <div class="d-flex flex-column my-3 mx-auto">
           <div class="d-flex align-items-center">
             <label for="profilePicture" class="form-label me-3"
@@ -57,7 +67,10 @@
               {{ profilePicture ? "Save" : "Delete" }}
             </span>
           </button>
-          <button (click)="cancelPhotoEdit()" class="custom-button border-blu">
+          <button
+            (click)="cancelPhotoEdit()"
+            class="custom-button button-small border-blu"
+          >
             <span class="text-blu button-small">Cancel</span>
           </button>
         </div>
@@ -66,9 +79,9 @@
 
     <!-- Colonna Dettagli Personali -->
     <div
-      class="col-10 col-md-4 mt-5 mt-md-0 d-flex flex-column justify-content-start mx-auto"
+      class="col-10 col-md-4 mt-5 d-flex flex-column justify-content-start mx-auto internal-container order-2 order-md-1"
     >
-      <div *ngIf="!editingDetails" class="mx-md-auto">
+      <div *ngIf="!editingDetails" class="my-auto">
         <div
           *ngIf="professional || user"
           class="d-flex flex-column justify-content-center mb-2"
@@ -115,12 +128,11 @@
           </button>
         </div>
       </div>
-      <div *ngIf="editingDetails" class="mx-auto">
-        <form
-          [formGroup]="detailsForm"
-          (ngSubmit)="saveDetails()"
-          class="mx-auto"
-        >
+      <div
+        *ngIf="editingDetails"
+        class="d-flex justify-content-center justify-content-md-start my-auto"
+      >
+        <form [formGroup]="detailsForm" (ngSubmit)="saveDetails()">
           <div class="input-wrapper mb-3">
             <input
               id="name"
@@ -197,8 +209,11 @@
     </div>
 
     <!-- colonna bottone preferiti -->
-    <div *ngIf="!isOwner" class="col-10 col-md-4 mt-3 mt-md-0 mx-auto">
-      <div class="d-flex justify-content-center">
+    <div
+      *ngIf="!isOwner"
+      class="col-10 col-md-3 mt-5 mt-md-0 internal-container mx-auto d-flex justify-content-start align-items-center order-0 order-md-2"
+    >
+      <div>
         <button
           (click)="toggleFavourite()"
           [ngClass]="{
@@ -206,7 +221,7 @@
             'button-large': isFavourite,
             'border-blu': !isFavourite,
             'border-rosso': isFavourite,
-            'me-3': true
+            'me-3': true,
           }"
         >
           <span
@@ -223,39 +238,55 @@
   </div>
 
   <!-- RIGA 2: Percorso Formativo, Professione e Written Story -->
-  <div class="row mt-5">
+  <div class="row second-row">
     <!-- Colonna Percorso Formativo -->
-    <div class="col-10 col-md-4 mx-auto">
-      <div *ngIf="!editingEducationalPath">
-        <h6>Educational Path</h6>
-        <div *ngIf="professional?.educationalPaths; else noEdu">
-          <div *ngFor="let edu of professional.educationalPaths" class="mt-3">
-            <p>
-              {{ edu.university?.name }} - {{ edu.faculty?.name }} -
-              {{ edu.degreeCourse?.name }}
-            </p>
+    <div class="col-10 col-md-6 mx-auto mt-5 mt-md-0">
+      <div
+        *ngIf="!editingEducationalPath"
+        class="d-flex flex-column align-items-start"
+      >
+        <div>
+          <h6>EDUCATIONAL PATH</h6>
+          <div *ngIf="professional?.educationalPaths; else noEdu">
+            <div *ngFor="let edu of professional.educationalPaths" class="mt-2">
+              <p class="m-0">
+                <span class="fw-bold">University: </span>
+                {{ edu.university?.name }}
+              </p>
+              <p class="m-0">
+                <span class="fw-bold">Faculty: </span>{{ edu.faculty?.name }}
+              </p>
+              <p class="m-0">
+                <span class="fw-bold">Degree Course: </span
+                >{{ edu.degreeCourse?.name }}
+              </p>
+
+              <button
+                *ngIf="isOwner"
+                class="custom-button button-small border-rosso my-3"
+                (click)="edu.id && deleteEducationalPath(edu.id)"
+              >
+                <span class="text-rosso">Delete</span>
+              </button>
+            </div>
+          </div>
+          <ng-template #noEdu>
+            <p>No educational path added.</p>
+          </ng-template>
+          <div *ngIf="isOwner">
             <button
-              *ngIf="isOwner"
-              class="custom-button button-small border-rosso"
-              (click)="edu.id && deleteEducationalPath(edu.id)"
+              (click)="addEducationalPath()"
+              class="custom-button button-small border-blu"
             >
-              <span class="text-rosso">Delete</span>
+              <span class="text-blu">Add</span>
             </button>
           </div>
         </div>
-        <ng-template #noEdu>
-          <p>No educational path added.</p>
-        </ng-template>
-        <div *ngIf="isOwner" class="mt-4">
-          <button
-            (click)="addEducationalPath()"
-            class="custom-button button-small border-blu"
-          >
-            <span class="text-blu">Add</span>
-          </button>
-        </div>
       </div>
-      <div *ngIf="editingEducationalPath">
+      <div
+        *ngIf="editingEducationalPath"
+        class="d-flex justify-content-center justify-content-md-start"
+      >
         <form
           [formGroup]="educationalPathForm"
           (ngSubmit)="saveEducationalPath()"
@@ -297,13 +328,16 @@
           </div>
 
           <div class="d-flex justify-content-center">
-            <button type="submit" class="custom-button border-blu me-2">
+            <button
+              type="submit"
+              class="custom-button button-small border-blu me-2"
+            >
               <span class="text-blu">Save</span>
             </button>
             <button
               type="button"
               (click)="cancelEducationalPath()"
-              class="custom-button border-blu"
+              class="custom-button button-small border-blu"
             >
               <span class="text-blu">Cancel</span>
             </button>
@@ -313,22 +347,33 @@
     </div>
 
     <!-- Colonna Professione -->
-    <div class="col-10 col-md-4 mx-auto">
-      <div *ngIf="!editingProfession">
-        <h6>Profession</h6>
-        <p *ngIf="professional?.profession; else noProf">
-          {{ professional.profession?.name }}
-        </p>
-        <ng-template #noProf>
-          <p>No profession set.</p>
-        </ng-template>
-        <div *ngIf="isOwner" class="mt-2">
-          <button (click)="editProfession()" class="custom-button border-blu">
-            <span class="text-blu">Edit Profession</span>
-          </button>
+    <div class="col-10 col-md-6 mx-auto mt-5 mt-md-0">
+      <div
+        *ngIf="!editingProfession"
+        class="d-flex flex-column align-items-start"
+      >
+        <div>
+          <h6>PROFESSION</h6>
+          <p *ngIf="professional?.profession; else noProf">
+            {{ professional.profession?.name }}
+          </p>
+          <ng-template #noProf>
+            <p>No profession set.</p>
+          </ng-template>
+          <div *ngIf="isOwner" class="mt-2">
+            <button
+              (click)="editProfession()"
+              class="custom-button button-small border-blu"
+            >
+              <span class="text-blu">Edit</span>
+            </button>
+          </div>
         </div>
       </div>
-      <div *ngIf="editingProfession">
+      <div
+        *ngIf="editingProfession"
+        class="d-flex justify-content-center justify-content-md-start"
+      >
         <form [formGroup]="professionForm" (ngSubmit)="saveProfession()">
           <div class="input-wrapper mb-3">
             <select
@@ -351,53 +396,16 @@
             </select>
           </div>
           <div class="d-flex justify-content-center">
-            <button type="submit" class="custom-button border-blu me-2">
+            <button
+              type="submit"
+              class="custom-button button-small border-blu me-2"
+            >
               <span class="text-blu">Save</span>
             </button>
             <button
               type="button"
               (click)="cancelProfession()"
-              class="custom-button border-blu"
-            >
-              <span class="text-blu">Cancel</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Colonna Written Story -->
-    <div class="col-10 col-md-4 mx-auto">
-      <div *ngIf="!editingWrittenStory">
-        <h6>Written Story</h6>
-        <p *ngIf="professional?.writtenStory; else noStory">
-          {{ professional.writtenStory }}
-        </p>
-        <ng-template #noStory>
-          <p>No written story added.</p>
-        </ng-template>
-        <div *ngIf="isOwner" class="mt-2">
-          <button (click)="editWrittenStory()" class="custom-button border-blu">
-            <span class="text-blu">Edit Story</span>
-          </button>
-        </div>
-      </div>
-      <div *ngIf="editingWrittenStory">
-        <form [formGroup]="writtenStoryForm" (ngSubmit)="saveWrittenStory()">
-          <textarea
-            formControlName="writtenStory"
-            rows="5"
-            placeholder="Your Written Story"
-            class="form-control mb-2"
-          ></textarea>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="custom-button border-blu me-2">
-              <span class="text-blu">Save</span>
-            </button>
-            <button
-              type="button"
-              (click)="cancelWrittenStory()"
-              class="custom-button border-blu"
+              class="custom-button button-small border-blu"
             >
               <span class="text-blu">Cancel</span>
             </button>
@@ -407,12 +415,68 @@
     </div>
   </div>
 
-  <!-- RIGA 3: Video Story e Curriculum Vitae -->
-  <div class="row mt-5">
-    <!-- Colonna Video Story -->
+  <div class="row third-row mt-5">
     <div class="col-10 col-md-6 mx-auto">
-      <div *ngIf="!editingVideo">
-        <h6>Video Story</h6>
+      <div
+        *ngIf="!editingWrittenStory"
+        class="d-flex flex-column align-items-start"
+      >
+        <div>
+          <h6>EDUCATION-CAREER STORY</h6>
+          <p *ngIf="professional?.writtenStory; else noStory">
+            {{ professional.writtenStory }}
+          </p>
+          <ng-template #noStory>
+            <p>No written story added.</p>
+          </ng-template>
+          <div *ngIf="isOwner" class="mt-2">
+            <button
+              (click)="editWrittenStory()"
+              class="custom-button button-small border-blu"
+            >
+              <span class="text-blu">Edit</span>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="editingWrittenStory"
+        class="d-flex justify-content-center justify-content-md-start"
+      >
+        <form
+          [formGroup]="writtenStoryForm"
+          (ngSubmit)="saveWrittenStory()"
+          class="input-wrapper"
+        >
+          <textarea
+            formControlName="writtenStory"
+            rows="3"
+            placeholder="Your Written Story"
+            class="mb-2 input-box"
+          ></textarea>
+          <div class="d-flex justify-content-center">
+            <button
+              type="submit"
+              class="custom-button button-small border-blu me-2"
+            >
+              <span class="text-blu">Save</span>
+            </button>
+            <button
+              type="button"
+              (click)="cancelWrittenStory()"
+              class="custom-button button-small border-blu"
+            >
+              <span class="text-blu">Cancel</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Colonna Video Story -->
+    <div class="col-10 col-md-6 mx-auto mt-5 mt-md-0">
+      <div *ngIf="!editingVideo" class="mx-auto">
+        <h6>VIDEO STORY</h6>
         <div *ngIf="professional?.videoStory; else noVideo">
           <video controls>
             <source [src]="professional.videoStory" type="video/mp4" />
@@ -422,13 +486,16 @@
           <p>No video story added.</p>
         </ng-template>
         <div *ngIf="isOwner" class="mt-2">
-          <button (click)="editVideo()" class="custom-button border-blu">
-            <span class="text-blu">Edit Video</span>
+          <button
+            (click)="editVideo()"
+            class="custom-button button-small border-blu"
+          >
+            <span class="text-blu">Edit</span>
           </button>
         </div>
       </div>
       <div *ngIf="editingVideo" class="d-flex flex-column my-auto">
-        <div class="d-flex flex-column my-3 mx-auto">
+        <div class="d-flex flex-column my-3 mx-auto mx-md-auto">
           <div class="d-flex align-items-center">
             <label for="video" class="form-label me-3">Video Story</label>
             <input
@@ -443,11 +510,12 @@
           </div>
           <span *ngIf="fileName">{{ fileName }}</span>
         </div>
-        <div class="d-flex mt-3 mx-auto">
+        <div class="d-flex mt-3 mx-auto mx-md-auto">
           <button
             (click)="handleVideo()"
             [ngClass]="{
               'custom-button': true,
+              'button-small': true,
               'border-blu': videoFile,
               'border-rosso': !videoFile,
               'me-3': true
@@ -462,15 +530,22 @@
               {{ videoFile ? "Save" : "Delete" }}
             </span>
           </button>
-          <button (click)="cancelVideo()" class="custom-button border-blu">
+          <button
+            (click)="cancelVideo()"
+            class="custom-button button-small border-blu"
+          >
             <span class="text-blu">Cancel</span>
           </button>
         </div>
       </div>
     </div>
-
-    <div *ngIf="isOwner" class="col-10 col-md-7 mt-3 mt-md-0 d-flex mx-auto">
-      <div class="mx-md-auto">
+  </div>
+  <div class="row my-5 my-md-0 mb-md-5">
+    <div
+      *ngIf="isOwner"
+      class="col-10 col-md-12 mt-3 mt-md-0 d-flex justify-content-start mx-auto"
+    >
+      <div>
         <button
           type="button"
           (click)="deleteProfessional()"
@@ -478,6 +553,12 @@
         >
           <span class="text-rosso">Delete Account</span>
         </button>
+        <div>
+          <small
+            ><small class="text-rosso">PLEASE NOTE: </small> All your data will
+            be deleted!</small
+          >
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,50 @@
+@media (min-width: 768px) {
+  img {
+    max-width: 350px;
+    bottom: 0;
+  }
+
+  .internal-container {
+    height: 100%;
+    min-height: 92vh;
+  }
+
+  .internal-container > div {
+    position: relative;
+    i {
+      position: absolute;
+      top: -20px;
+      right: 0px;
+    }
+  }
+
+  .second-row {
+    height: 100%;
+    min-height: 45vh;
+  }
+
+  .third-row {
+    height: 100%;
+    min-height: 40vh;
+  }
+
+  video {
+    max-width: 450px;
+    height: auto;
+    border-radius: 6px;
+    border: 2px solid #035476ee;
+  }
+}
+
+@media (max-width: 996px) {
+  img {
+    max-width: 250px;
+  }
+
+  video {
+    max-width: 300px;
+    height: auto;
+    border-radius: 6px;
+    border: 2px solid #035476ee;
+  }
+}
