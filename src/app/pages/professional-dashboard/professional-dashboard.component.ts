@@ -162,6 +162,9 @@ export class ProfessionalDashboardComponent implements OnInit {
           this.favouriteId = null;
           this.response = true;
           this.toastMessage = 'Professional removed from favourite!';
+          setTimeout(() => {
+            this.clearToast();
+          }, 2000);
         },
         error: (err) =>
           console.error('Errore nella rimozione dai preferiti', err),
@@ -174,6 +177,9 @@ export class ProfessionalDashboardComponent implements OnInit {
           this.favouriteId = fav.id || null;
           this.response = true;
           this.toastMessage = 'Professional added to favourite!';
+          setTimeout(() => {
+            this.clearToast();
+          }, 2000);
         },
         error: (err) => console.error("Errore nell'aggiunta ai preferiti", err),
       });

@@ -180,3 +180,15 @@ select::placeholder {
   outline: none;
   box-shadow: none;
 }
+
+.toast-container {
+  top: 100px;
+  right: 30px;
+}
+
+@media (max-width: 576px) {
+  .toast-container {
+    top: 100px;
+    right: 12px;
+  }
+}
