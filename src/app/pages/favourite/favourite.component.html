@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row mt-5">
+  <div class="row mt-5 internal-container">
     <div
       *ngFor="let professional of professionals"
       class="col-10 col-sm-6 col-md-4 col-lg-3 mt-5 mx-auto mx-sm-0 mb-5"
@@ -9,7 +9,7 @@
 
     <div
       *ngIf="pageable.totalElements != 0"
-      class="col-12 mt-5 d-flex justify-content-end"
+      class="col-12 mt-5 d-flex justify-content-end position-absolute bottom-0"
     >
       <ngb-pagination
         [collectionSize]="pageable.totalElements || 0"
