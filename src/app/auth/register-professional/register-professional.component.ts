@@ -150,6 +150,7 @@ export class RegisterProfessionalComponent {
     this.http.get<iSector[]>(this.sectorsUrl).subscribe({
       next: (data) => {
         this.sectorsList = data;
+        console.log('Sectors loaded:', data);
       },
       error: (err) => {
         console.error('Error loading sectors:', err);
@@ -173,6 +174,7 @@ export class RegisterProfessionalComponent {
         next: (data) => {
           this.professionsList = data;
           this.form.patchValue({ professionId: '' });
+          console.log('Professions loaded:', data);
         },
         error: () => {
           console.error(`Error loading professions for sector ${sectorId}:`);

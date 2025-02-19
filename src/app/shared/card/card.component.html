@@ -1,11 +1,7 @@
 <div class="card mx-auto">
   <div class="card-content">
     <div class="card-photo">
-      <img
-        class=""
-        src="https://www.giulianofroio.com/wp-content/uploads/2021/05/book-fotografico-uomo-IMG_7813.jpg"
-        alt=""
-      />
+      <img class="" src="{{ professional.appUser.profilePicture }}" alt="" />
     </div>
     <div class="card-details mt-3">
       {{ professional.appUser.name }} {{ professional.appUser.surname }}
@@ -16,7 +12,7 @@
       (click)="goToProfessionalPage(professional.appUser.id)"
       class="custom-button button-small border-blu mt-3"
     >
-      <span class="text-blu">Show</span>
+      <span class="text-blu">Profile</span>
     </button>
   </div>
 </div>
