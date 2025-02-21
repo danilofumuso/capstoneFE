@@ -30,8 +30,8 @@
 
 .card-photo {
   img {
-    width: 80px;
-    height: 80px;
+    width: 90px;
+    height: 90px;
     object-fit: cover;
     border-radius: 100%;
   }
@@ -39,7 +39,7 @@
 
 .card-details {
   text-align: center;
-  color: #03293a;
+  color: #035476ee;
   font-size: 1rem;
   font-weight: 700;
 }
@@ -48,5 +48,4 @@
 .custom-button::before,
 .custom-button::after {
   background: #f3ebe2;
-  border-color: #035476ee;
 }

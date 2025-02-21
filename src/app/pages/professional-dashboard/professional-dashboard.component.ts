@@ -212,8 +212,6 @@ export class ProfessionalDashboardComponent implements OnInit {
     });
   }
 
-  // ==================== Metodi per le select del PERCORSO FORMATIVO ====================
-
   loadUniversities(): void {
     this.http.get<iUniversity[]>(this.universitiesUrl).subscribe({
       next: (data) => {
@@ -283,8 +281,6 @@ export class ProfessionalDashboardComponent implements OnInit {
       });
   }
 
-  // ==================== Metodi per le select della PROFESSIONE ====================
-
   loadSectors(): void {
     this.http.get<iSector[]>(this.sectorsUrl).subscribe({
       next: (data) => {
@@ -319,7 +315,7 @@ export class ProfessionalDashboardComponent implements OnInit {
       });
   }
 
-  // ==================== Metodi per le sezioni edit/view ====================
+  // ==================== edit/view methods ====================
 
   editDetails(): void {
     this.editingDetails = true;
@@ -331,10 +327,9 @@ export class ProfessionalDashboardComponent implements OnInit {
       this.professionalService.updateProfessional(professionalDTO).subscribe({
         next: (updated) => {
           if (updated.appUser) {
-            // Aggiorna user e professional
             this.user = updated.appUser;
             this.professional = updated;
-            // Sincronizza i dati nel subject e nel localStorage
+
             this.updateAuthData(updated);
           }
           this.editingDetails = false;
@@ -379,7 +374,6 @@ export class ProfessionalDashboardComponent implements OnInit {
   }
 
   deleteProfilePicture(): void {
-    // Invia null al backend per eliminare la foto
     this.professionalService.updateProfilePicture(null).subscribe({
       next: (updated) => {
         if (updated.appUser) {
@@ -398,10 +392,8 @@ export class ProfessionalDashboardComponent implements OnInit {
 
   handleProfilePicture(): void {
     if (this.profilePicture) {
-      // Se è stato selezionato un file, salviamo la nuova foto
       this.savePhoto();
     } else {
-      // Altrimenti, eliminiamo la foto (inviando null al backend)
       this.deleteProfilePicture();
     }
   }

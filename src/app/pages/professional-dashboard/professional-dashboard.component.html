@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row align-items-start">
-    <div class="col-10 col-md-5 mx-auto mt-5 mt-md-0 order-1 order-md-0">
+    <div class="col-10 col-md-5 mx-auto mt-5 mt-md-0 order-1 order-md-0 blob">
       <div
         *ngIf="!editingPhoto"
         class="d-flex img-container justify-content-center justify-content-md-start"
@@ -86,7 +86,7 @@
           *ngIf="professional || user"
           class="d-flex flex-column justify-content-center mb-2"
         >
-          <h6>NAME&nbsp;</h6>
+          <h5>NAME&nbsp;</h5>
           <h6 class="fw-light">
             {{ professional?.appUser?.name || user?.name }}
           </h6>
@@ -95,7 +95,7 @@
           *ngIf="professional || user"
           class="d-flex flex-column justify-content-center mb-2"
         >
-          <h6>SURNAME&nbsp;</h6>
+          <h5>SURNAME&nbsp;</h5>
           <h6 class="fw-light">
             {{ professional?.appUser?.surname || user?.surname }}
           </h6>
@@ -104,7 +104,7 @@
           *ngIf="professional || user"
           class="d-flex flex-column justify-content-center mb-2"
         >
-          <h6>E-MAIL&nbsp;</h6>
+          <h5>E-MAIL&nbsp;</h5>
           <h6 class="fw-light">
             {{ professional?.appUser?.email || user?.email }}
           </h6>
@@ -113,7 +113,7 @@
           *ngIf="professional || user"
           class="d-flex flex-column justify-content-center mb-2"
         >
-          <h6>DATE OF BIRTH&nbsp;</h6>
+          <h5>DATE OF BIRTH&nbsp;</h5>
           <h6 class="fw-light">
             {{ professional?.appUser?.dateOfBirth || user?.dateOfBirth }}
           </h6>
@@ -237,7 +237,6 @@
     </div>
   </div>
 
-  <!-- RIGA 2: Percorso Formativo, Professione e Written Story -->
   <div class="row second-row">
     <!-- Colonna Percorso Formativo -->
     <div class="col-10 col-md-6 mx-auto mt-5 mt-md-0">
@@ -246,7 +245,7 @@
         class="d-flex flex-column align-items-start"
       >
         <div>
-          <h6>EDUCATIONAL PATH</h6>
+          <h5>EDUCATIONAL PATH</h5>
           <div *ngIf="professional?.educationalPaths; else noEdu">
             <div *ngFor="let edu of professional.educationalPaths" class="mt-2">
               <p class="m-0">
@@ -353,7 +352,7 @@
         class="d-flex flex-column align-items-start"
       >
         <div>
-          <h6>PROFESSION</h6>
+          <h5>PROFESSION</h5>
           <p *ngIf="professional?.profession; else noProf">
             {{ professional.profession?.name }}
           </p>
@@ -416,13 +415,14 @@
   </div>
 
   <div class="row third-row mt-5">
+    <!--   colonna Written Story -->
     <div class="col-10 col-md-6 mx-auto">
       <div
         *ngIf="!editingWrittenStory"
         class="d-flex flex-column align-items-start"
       >
         <div>
-          <h6>EDUCATION-CAREER STORY</h6>
+          <h5>EDUCATION-CAREER STORY</h5>
           <p *ngIf="professional?.writtenStory; else noStory">
             {{ professional.writtenStory }}
           </p>
@@ -476,7 +476,7 @@
     <!-- Colonna Video Story -->
     <div class="col-10 col-md-6 mx-auto mt-5 mt-md-0">
       <div *ngIf="!editingVideo" class="mx-auto">
-        <h6>VIDEO STORY</h6>
+        <h5>VIDEO STORY</h5>
         <div *ngIf="professional?.videoStory; else noVideo">
           <video controls>
             <source [src]="professional.videoStory" type="video/mp4" />

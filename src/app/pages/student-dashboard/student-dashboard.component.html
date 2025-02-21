@@ -1,13 +1,16 @@
 <div class="container">
   <div class="row">
-    <div *ngIf="!editingPhoto" class="col-10 col-md-5 mx-auto mt-5 mt-md-0">
+    <div
+      *ngIf="!editingPhoto"
+      class="col-10 col-md-5 mx-auto mt-5 mt-md-0 blob"
+    >
       <div class="d-flex align-items-end internal-container">
         <div class="mx-auto">
           <img [src]="student.profilePicture" />
         </div>
         <div *ngIf="!editingPhoto">
           <button
-            class="border-0 bg-background rounded-0"
+            class="border-0 bg-transparent rounded-0"
             (click)="editingPhoto = true"
           >
             <i class="bi bi-file-image text-blu"></i>
@@ -69,19 +72,19 @@
     >
       <div *ngIf="!editingDetails" class="mx-md-auto">
         <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>NAME &nbsp;</h6>
+          <h5>NAME &nbsp;</h5>
           <h6 class="fw-light">{{ student.name }}</h6>
         </div>
         <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>SURNAME &nbsp;</h6>
+          <h5>SURNAME &nbsp;</h5>
           <h6 class="fw-light">{{ student.surname }}</h6>
         </div>
         <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>E-MAIL &nbsp;</h6>
+          <h5>E-MAIL &nbsp;</h5>
           <h6 class="fw-light">{{ student.email }}</h6>
         </div>
         <div class="d-flex flex-column justify-content-center mb-2">
-          <h6>DATE OF BIRTH &nbsp;</h6>
+          <h5>DATE OF BIRTH &nbsp;</h5>
           <h6 class="fw-light">{{ student.dateOfBirth }}</h6>
         </div>
 
@@ -173,7 +176,7 @@
   <div class="row second-row">
     <div class="col-10 col-md-5 d-flex flex-column mx-auto mt-5 mt-md-0">
       <div *ngIf="!editingSectorsOfInterest" class="d-flex flex-column mb-3">
-        <h6>SECTORS OF INTEREST &nbsp;</h6>
+        <h5>SECTORS OF INTEREST &nbsp;</h5>
         <h6 class="fw-light" *ngFor="let interest of sectorsOfInterest">
           {{ interest.name }}&nbsp;
         </h6>
