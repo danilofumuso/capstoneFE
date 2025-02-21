@@ -31,3 +31,54 @@
     max-width: 250px;
   }
 }
+
+/* i {
+  position: absolute;
+  bottom: 20px;
+  right: -30px;
+}
+
+@media (min-width: 768px) {
+  img {
+    max-width: 350px;
+    bottom: 0;
+    position: sticky;
+  }
+
+  .internal-container {
+    height: 100%;
+    min-height: 92vh;
+  }
+
+  .blob {
+    background-image: url(/blob.png);
+    background-size: 400px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
+
+  .second-row {
+    height: 100%;
+    min-height: 40vh;
+    align-items: center;
+  }
+}
+
+@media (max-width: 996px) {
+  img {
+    max-width: 250px;
+  }
+
+  .internal-container {
+    height: 100%;
+    min-height: 42vh;
+  }
+
+  .blob {
+    background-image: url(/blob.png);
+    background-size: 300px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+  }
+}
+ */
