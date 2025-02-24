@@ -333,6 +333,7 @@ export class ProfessionalDashboardComponent implements OnInit {
             this.updateAuthData(updated);
           }
           this.editingDetails = false;
+          this.detailsForm.reset();
         },
         error: (err) => console.error('Error updating details', err),
       });
@@ -367,6 +368,7 @@ export class ProfessionalDashboardComponent implements OnInit {
               this.updateAuthData(updated);
             }
             this.editingPhoto = false;
+            this.fileName = '';
           },
           error: (err) => console.error('Error updating photo', err),
         });

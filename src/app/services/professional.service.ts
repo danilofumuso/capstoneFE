@@ -29,7 +29,7 @@ export class ProfessionalService {
 
   constructor(private http: HttpClient) {}
 
-  getAllProfessionals(page: number = 0, size: number = 10): Observable<iPage> {
+  getAllProfessionals(page: number = 0, size: number = 8): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
@@ -38,7 +38,7 @@ export class ProfessionalService {
 
   getProfessionalsByStudentSectorsOfInterest(
     page: number = 0,
-    size: number = 10
+    size: number = 8
   ): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())
@@ -54,7 +54,7 @@ export class ProfessionalService {
   getProfessionalsFiltered(
     professionDTO: iProfessionDTO,
     page: number = 0,
-    size: number = 10
+    size: number = 8
   ): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())

@@ -6,7 +6,7 @@
     >
       <div class="d-flex align-items-end internal-container">
         <div class="mx-auto">
-          <img [src]="student.profilePicture" />
+          <img [src]="student.profilePicture || '/user.png'" />
         </div>
         <div *ngIf="!editingPhoto">
           <button
