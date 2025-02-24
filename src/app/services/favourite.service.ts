@@ -13,7 +13,7 @@ export class FavouriteService {
 
   constructor(private http: HttpClient) {}
 
-  getFavourites(page: number = 0, size: number = 10): Observable<iPage> {
+  getFavourites(page: number = 0, size: number = 8): Observable<iPage> {
     const params = new HttpParams()
       .set('page', page.toString())
       .set('size', size.toString());
